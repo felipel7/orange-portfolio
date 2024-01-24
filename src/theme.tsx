@@ -8,11 +8,16 @@ const theme = createTheme({
         root: {
           background: '#FF5522',
           color: '#FCFDFF',
-          fontWeight: 'bold',
+          letterSpacing: 0.5,
+          fontWeight: 600,
           '&:hover': {
             backgroundColor: darken('#FF5522', 0.05),
           },
-          letterSpacing: 0.5,
+          '&.Mui-disabled': {
+            background: 'rgba(0, 0, 0, .12)',
+            paddingInline: '22px',
+            fontWeight: 500,
+          },
         },
       },
     },
@@ -24,6 +29,10 @@ const theme = createTheme({
         fontSize: 24,
       },
       color: '#222244',
+    },
+    h4: {
+      fontSize: 24,
+      color: '#303113',
     },
     h5: {
       fontSize: 24,
