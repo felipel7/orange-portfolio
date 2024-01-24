@@ -1,4 +1,4 @@
-import { createTheme, darken } from '@mui/material/styles';
+import { alpha, createTheme, darken } from '@mui/material/styles';
 
 const theme = createTheme({
   palette: {},
@@ -40,6 +40,11 @@ const theme = createTheme({
         fontSize: 16,
       },
       color: '#515255',
+    },
+    h6: {
+      fontSize: 20,
+      color: alpha('#0B0C0D', 0.6),
+      fontWeight: 500,
     },
   },
 });
