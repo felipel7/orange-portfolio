@@ -1,4 +1,4 @@
-import { createTheme, darken } from '@mui/material/styles';
+import { alpha, createTheme, darken } from '@mui/material/styles';
 
 const theme = createTheme({
   palette: {},
@@ -8,11 +8,16 @@ const theme = createTheme({
         root: {
           background: '#FF5522',
           color: '#FCFDFF',
-          fontWeight: 'bold',
+          letterSpacing: 0.5,
+          fontWeight: 600,
           '&:hover': {
             backgroundColor: darken('#FF5522', 0.05),
           },
-          letterSpacing: 0.5,
+          '&.Mui-disabled': {
+            background: 'rgba(0, 0, 0, .12)',
+            paddingInline: '22px',
+            fontWeight: 500,
+          },
         },
       },
     },
@@ -25,12 +30,21 @@ const theme = createTheme({
       },
       color: '#222244',
     },
+    h4: {
+      fontSize: 24,
+      color: '#303113',
+    },
     h5: {
       fontSize: 24,
       '@media (max-width:600px)': {
         fontSize: 16,
       },
       color: '#515255',
+    },
+    h6: {
+      fontSize: 20,
+      color: alpha('#0B0C0D', 0.6),
+      fontWeight: 500,
     },
   },
 });
