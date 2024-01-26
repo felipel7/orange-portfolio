@@ -1,50 +1,95 @@
-import { alpha, createTheme, darken } from '@mui/material/styles';
+import { PaletteColor, createTheme } from '@mui/material/styles';
 
-const theme = createTheme({
-  palette: {},
+let theme = createTheme({
+  palette: {
+    primary: {
+      '100': '#E6E9F2',
+      light: '#222244',
+      main: '#111133',
+    },
+    secondary: {
+      light: '#FF8833',
+      main: '#FF5522',
+      dark: '#CC4400',
+    },
+  },
   components: {
     MuiButton: {
       styleOverrides: {
         root: {
-          background: '#FF5522',
-          color: '#FCFDFF',
           letterSpacing: 0.5,
-          fontWeight: 600,
-          '&:hover': {
-            backgroundColor: darken('#FF5522', 0.05),
-          },
-          '&.Mui-disabled': {
-            background: 'rgba(0, 0, 0, .12)',
-            paddingInline: '22px',
-            fontWeight: 500,
-          },
+          paddingInline: 22,
+          fontWeight: 500,
         },
       },
     },
   },
   typography: {
+    fontFamily: 'Roboto',
     h3: {
       fontSize: 48,
       '@media (max-width:600px)': {
         fontSize: 24,
       },
-      color: '#222244',
     },
     h4: {
       fontSize: 24,
-      color: '#303113',
     },
     h5: {
       fontSize: 24,
       '@media (max-width:600px)': {
         fontSize: 16,
       },
-      color: '#515255',
     },
     h6: {
       fontSize: 20,
-      color: alpha('#0B0C0D', 0.6),
-      fontWeight: 500,
+    },
+  },
+});
+
+interface CustomPaletteColor extends PaletteColor {
+  '60': string;
+  '110': string;
+  '120': string;
+  '130': string;
+}
+
+theme = createTheme(theme, {
+  palette: {
+    neutral: theme.palette.augmentColor({
+      color: {
+        dark: '#515255',
+        main: '#818388',
+        light: '#A1A3AA',
+        '60': '#FCFDFF',
+        '110': '#515255',
+        '120': '#303133',
+        '130': '#0B0C0D',
+      } as CustomPaletteColor,
+      name: 'neutral',
+    }),
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          '&.Mui-disabled': {
+            background: theme.palette.grey[300],
+            color: theme.palette.grey[600],
+          },
+        },
+        containedPrimary: {
+          background: theme.palette.grey[300],
+          color: theme.palette.grey[600],
+          boxShadow: 'none',
+          '&:hover': {
+            background: theme.palette.grey[400],
+          },
+        },
+        containedSecondary: {
+          background: theme.palette.secondary.main,
+        },
+      },
     },
   },
 });

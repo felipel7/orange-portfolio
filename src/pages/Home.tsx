@@ -1,4 +1,3 @@
-import { PhotoLibrary } from '@mui/icons-material';
 import {
   Autocomplete,
   Box,
@@ -9,18 +8,19 @@ import {
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
-import ProjectFormModal from '../components/Forms/ProjectFormModal';
-import UserActionPanel from '../components/UserActionPanel';
+import ImageCard from '../components/Cards/ImageCard';
+import UserCard from '../components/Cards/UserCard';
+import ProjectModalForm from '../components/Forms/ProjectModalForm';
 
 export default function HomePage() {
   const [openFormModal, setOpenFormModal] = useState(false);
 
   return (
     <>
-      <Container maxWidth="xl">
+      <Container maxWidth="lg">
         <Stack px={1}>
           <Box mt={{ xs: 7, sm: '112px' }} mb={{ xs: 5, sm: 7 }}>
-            <UserActionPanel />
+            <UserCard />
           </Box>
           <AppSearch />
 
@@ -41,43 +41,33 @@ export default function HomePage() {
               <img src={image} />
             </ImageListItem>
           ))} */}
-            <Box
-              bgcolor="#E6E9F2"
-              display="flex"
-              flexDirection="column"
-              justifyContent="center"
-              alignItems="center"
-              gap={1}
-              borderRadius={1}
-              sx={{ height: 258, cursor: 'pointer' }}
-              px={{ xs: 4, sm: 8 }}
-              onClick={() => setOpenFormModal(true)}
-            >
-              <PhotoLibrary fontSize="large" sx={{ fill: '#323232' }} />
-              <Typography>Adicione seu primeiro projeto</Typography>
-              <Typography fontSize={14}>
-                Compartilhe seu talento com milhares de pessoas
-              </Typography>
-            </Box>
+            <ImageCard isEmpty={true} action={() => setOpenFormModal(true)} />
           </ImageList>
         </Stack>
       </Container>
-      <ProjectFormModal open={openFormModal} setOpen={setOpenFormModal} />
+      <ProjectModalForm open={openFormModal} setOpen={setOpenFormModal} />
     </>
   );
 }
 
 function AppSearch() {
   return (
-    <Typography variant="h6">
-      Meus Projetos
+    <>
+      <Typography
+        color="neutral.130"
+        component="h4"
+        sx={{ opacity: 0.6 }}
+        variant="h6"
+      >
+        Meus Projetos
+      </Typography>
       <Autocomplete
-        id="free-solo-demo"
         freeSolo
+        id="free-solo-demo"
         options={[]}
         renderInput={params => <TextField {...params} label="Buscar tags" />}
         sx={{ maxWidth: 512, marginTop: 2, marginBottom: { xs: 3, sm: 5 } }}
       />
-    </Typography>
+    </>
   );
 }

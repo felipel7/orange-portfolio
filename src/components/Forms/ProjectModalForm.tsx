@@ -1,4 +1,3 @@
-import { PhotoLibrary } from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -9,8 +8,9 @@ import {
   Typography,
 } from '@mui/material';
 import { Dispatch, SetStateAction } from 'react';
+import ImageCard from '../Cards/ImageCard';
 
-interface ProjectFormModalProps {
+interface ProjectModalFormProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
@@ -24,14 +24,21 @@ const style = {
   maxWidth: '890px',
 };
 
-export default function ProjectFormModal({
+export default function ProjectModalForm({
   open = false,
   setOpen,
-}: ProjectFormModalProps) {
+}: ProjectModalFormProps) {
   return (
-    <Modal open={open} sx={{ outline: 'none', border: 'none' }}>
+    <Modal open={open} sx={{ overflowY: 'auto' }}>
       <Box sx={style} px={3}>
-        <Grid container bgcolor="background.paper" p={3} gap={3}>
+        <Grid
+          bgcolor="background.paper"
+          color="neutral.110"
+          component="section"
+          container
+          gap={3}
+          p={3}
+        >
           <Typography flexBasis="100%" variant="h4">
             Adicionar projeto
           </Typography>
@@ -42,47 +49,29 @@ export default function ProjectFormModal({
             }}
             maxWidth={390}
           >
-            <Stack sx={{ height: '100%' }} spacing={1}>
-              <Typography color="#515255">
-                Selecione o conteúdo que você deseja fazer upload
-              </Typography>
-
-              <Stack
-                justifyContent="center"
-                alignItems="center"
-                gap={1}
-                borderRadius={1}
-                px={{ xs: 4, sm: 8 }}
-                height="100%"
-                bgcolor="#E6E9F2"
-              >
-                <PhotoLibrary sx={{ fill: '#323232', height: 46, width: 46 }} />
-
-                <Typography fontSize={14} color="#303133">
-                  Compartilhe seu talento com milhares de pessoas
-                </Typography>
-              </Stack>
-            </Stack>
+            <ImageCard />
           </Grid>
           <Grid xs={12} md item sx={{ order: { xs: 1, md: 2 } }}>
             <ProjectForm />
           </Grid>
           <Box
             display="flex"
-            gap={2}
             flexBasis="100%"
-            order={3}
             flexDirection="column"
+            gap={2}
+            order={3}
           >
-            <Typography color="#515255">Visualizar publicação</Typography>
+            <Typography>Visualizar publicação</Typography>
 
             <Stack direction="row" gap={2}>
-              <Button variant="contained">Salvar</Button>
+              <Button size="large" variant="contained" color="secondary">
+                Salvar
+              </Button>
               <Button
-                variant="contained"
-                color="secondary"
+                color="primary"
                 onClick={() => setOpen(false)}
-                disabled
+                size="large"
+                variant="contained"
               >
                 Cancelar
               </Button>
