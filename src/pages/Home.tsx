@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import UserCard from '../components/Cards/UserCard';
-import ProjectFormModal from '../components/Forms/ProjectFormModal';
+import ProjectModalForm from '../components/Forms/ProjectModalForm';
 
 export default function HomePage() {
   const [openFormModal, setOpenFormModal] = useState(false);
@@ -62,7 +62,7 @@ export default function HomePage() {
           </ImageList>
         </Stack>
       </Container>
-      <ProjectFormModal open={openFormModal} setOpen={setOpenFormModal} />
+      <ProjectModalForm open={openFormModal} setOpen={setOpenFormModal} />
     </>
   );
 }

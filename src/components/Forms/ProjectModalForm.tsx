@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import { Dispatch, SetStateAction } from 'react';
 
-interface ProjectFormModalProps {
+interface ProjectModalFormProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
@@ -24,14 +24,21 @@ const style = {
   maxWidth: '890px',
 };
 
-export default function ProjectFormModal({
+export default function ProjectModalForm({
   open = false,
   setOpen,
-}: ProjectFormModalProps) {
+}: ProjectModalFormProps) {
   return (
-    <Modal open={open} sx={{ outline: 'none', border: 'none' }}>
+    <Modal open={open} sx={{ overflowY: 'auto' }}>
       <Box sx={style} px={3}>
-        <Grid container bgcolor="background.paper" p={3} gap={3}>
+        <Grid
+          bgcolor="background.paper"
+          color="neutral.110"
+          component="section"
+          container
+          gap={3}
+          p={3}
+        >
           <Typography flexBasis="100%" variant="h4">
             Adicionar projeto
           </Typography>
@@ -42,8 +49,9 @@ export default function ProjectFormModal({
             }}
             maxWidth={390}
           >
+            {/* TODO: Extrair para novo component */}
             <Stack sx={{ height: '100%' }} spacing={1}>
-              <Typography color="#515255">
+              <Typography>
                 Selecione o conteúdo que você deseja fazer upload
               </Typography>
 
@@ -63,26 +71,29 @@ export default function ProjectFormModal({
                 </Typography>
               </Stack>
             </Stack>
+            {/*  */}
           </Grid>
           <Grid xs={12} md item sx={{ order: { xs: 1, md: 2 } }}>
             <ProjectForm />
           </Grid>
           <Box
             display="flex"
-            gap={2}
             flexBasis="100%"
-            order={3}
             flexDirection="column"
+            gap={2}
+            order={3}
           >
-            <Typography color="#515255">Visualizar publicação</Typography>
+            <Typography>Visualizar publicação</Typography>
 
             <Stack direction="row" gap={2}>
-              <Button variant="contained">Salvar</Button>
+              <Button size="large" variant="contained" color="secondary">
+                Salvar
+              </Button>
               <Button
-                variant="contained"
-                color="secondary"
+                color="primary"
                 onClick={() => setOpen(false)}
-                disabled
+                size="large"
+                variant="contained"
               >
                 Cancelar
               </Button>

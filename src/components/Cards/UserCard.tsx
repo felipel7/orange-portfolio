@@ -1,6 +1,6 @@
 import { Avatar, Button, Stack, Typography } from '@mui/material';
 import { useState } from 'react';
-import ProjectFormModal from '../Forms/ProjectFormModal';
+import ProjectModalForm from '../Forms/ProjectModalForm';
 
 export default function UserCard() {
   const [openFormModal, setOpenFormModal] = useState(false);
@@ -53,7 +53,7 @@ export default function UserCard() {
           </Button>
         </Stack>
       </Stack>
-      <ProjectFormModal open={openFormModal} setOpen={setOpenFormModal} />
+      <ProjectModalForm open={openFormModal} setOpen={setOpenFormModal} />
     </>
   );
 }
