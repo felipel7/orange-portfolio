@@ -1,3 +1,4 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import {
   Box,
@@ -9,6 +10,9 @@ import {
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { userSchema } from '../../validation/userSchema';
 
 export default function RegistrationFormContainer() {
   return (
@@ -28,95 +32,78 @@ export default function RegistrationFormContainer() {
   );
 }
 
+type RegisterFormData = z.infer<typeof userSchema>;
+
 function RegistrationForm() {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+    reset,
+  } = useForm<RegisterFormData>({
+    resolver: zodResolver(userSchema),
+  });
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleLastNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setLastName(event.target.value);
-  };
-
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
-
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-  };
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-  };
-
-  const handleFirstNameChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setFirstName(event.target.value);
+  const onSubmit = (data: RegisterFormData) => {
+    console.log(data);
+    reset();
   };
 
   return (
-    <form>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <Stack gap={2}>
         <Box display="flex" gap={2}>
           <TextField
-            required
-            fullWidth
-            id="firstName"
-            label="Nome"
-            name="firstName"
             autoComplete="given-name"
-            value={firstName}
-            onChange={handleFirstNameChange}
+            fullWidth
+            label="Nome"
+            required
+            {...register('firstName')}
+            error={Boolean(errors.firstName)}
+            helperText={errors.firstName?.message}
           />
 
           <TextField
-            required
-            fullWidth
-            id="lastName"
-            label="Sobrenome"
-            name="lastName"
             autoComplete="family-name"
-            value={lastName}
-            onChange={handleLastNameChange}
+            fullWidth
+            label="Sobrenome"
+            required
+            {...register('lastName')}
+            error={Boolean(errors.lastName)}
+            helperText={errors.lastName?.message}
           />
         </Box>
 
         <TextField
+          autoComplete="email"
           required
           fullWidth
-          id="email"
-          label="Email address"
-          name="email"
-          autoComplete="email"
-          value={email}
-          onChange={handleEmailChange}
+          label="Email"
+          {...register('email')}
+          error={Boolean(errors.email)}
+          helperText={errors.email?.message}
         />
 
         <TextField
-          required
-          fullWidth
-          name="password"
-          label="Password"
-          type={showPassword ? 'text' : 'password'}
-          id="password"
           autoComplete="current-password"
-          value={password}
-          onChange={handlePasswordChange}
+          fullWidth
+          label="Password"
+          required
+          type={showPassword ? 'text' : 'password'}
+          {...register('password')}
+          error={Boolean(errors.password)}
+          helperText={errors.password?.message}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton
                   aria-label="toggle password visibility"
                   onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
                   edge="end"
                 >
                   {showPassword ? <VisibilityOff /> : <Visibility />}
