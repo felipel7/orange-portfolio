@@ -1,50 +1,78 @@
-import { alpha, createTheme, darken } from '@mui/material/styles';
+import { PaletteColor, alpha, createTheme } from '@mui/material/styles';
 
-const theme = createTheme({
-  palette: {},
+let theme = createTheme({
+  palette: {
+    primary: {
+      light: '#222244',
+      main: '#111133',
+    },
+    secondary: {
+      light: '#FF8833',
+      main: '#FF5522',
+      dark: '#CC4400',
+    },
+  },
   components: {
     MuiButton: {
       styleOverrides: {
         root: {
-          background: '#FF5522',
-          color: '#FCFDFF',
           letterSpacing: 0.5,
-          fontWeight: 600,
-          '&:hover': {
-            backgroundColor: darken('#FF5522', 0.05),
-          },
+          paddingInline: 22,
+          fontWeight: 500,
           '&.Mui-disabled': {
-            background: 'rgba(0, 0, 0, .12)',
-            paddingInline: '22px',
-            fontWeight: 500,
+            background: alpha('#000000', 0.12),
+            color: alpha('#000000', 0.38),
           },
         },
       },
     },
   },
   typography: {
+    fontFamily: 'Roboto',
     h3: {
       fontSize: 48,
       '@media (max-width:600px)': {
         fontSize: 24,
       },
-      color: '#222244',
     },
     h4: {
       fontSize: 24,
-      color: '#303113',
     },
     h5: {
       fontSize: 24,
       '@media (max-width:600px)': {
         fontSize: 16,
       },
-      color: '#515255',
     },
     h6: {
       fontSize: 20,
-      color: alpha('#0B0C0D', 0.6),
-      fontWeight: 500,
+    },
+  },
+});
+
+interface CustomPaletteColor extends PaletteColor {
+  '60': string;
+}
+
+theme = createTheme(theme, {
+  palette: {
+    neutral: theme.palette.augmentColor({
+      color: {
+        dark: '#515255',
+        main: '#818388',
+        light: '#A1A3AA',
+        '60': '#FCFDFF',
+      } as CustomPaletteColor,
+      name: 'neutral',
+    }),
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        containedSecondary: {
+          background: theme.palette.secondary.main,
+        },
+      },
     },
   },
 });
