@@ -11,8 +11,7 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { userSchema } from '../../validation/userSchema';
+import { RegisterFormData, userSchema } from '../../validation/userSchema';
 
 export default function RegistrationFormContainer() {
   return (
@@ -31,8 +30,6 @@ export default function RegistrationFormContainer() {
     </Stack>
   );
 }
-
-type RegisterFormData = z.infer<typeof userSchema>;
 
 function RegistrationForm() {
   const {

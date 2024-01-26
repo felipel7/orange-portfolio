@@ -1,18 +1,18 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import {
   Button,
-  FormControl,
   IconButton,
   InputAdornment,
-  InputLabel,
   Link,
-  OutlinedInput,
   Stack,
   TextField,
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { Link as RouterLink } from 'react-router-dom';
+import { LoginFormData, loginSchema } from '../../validation/userSchema';
 
 export default function LoginFormContainer() {
   return (
@@ -46,42 +46,66 @@ export default function LoginFormContainer() {
 }
 
 function LoginForm() {
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+    reset,
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+  });
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
+  const onSubmit = (data: LoginFormData) => {
+    console.log(data);
+    reset();
+  };
+
   return (
-    <form>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={2}>
         <TextField
-          id="outlined-basic"
           label="Email address"
           autoComplete="email"
           variant="outlined"
+          {...register('email')}
+          error={Boolean(errors.email)}
+          helperText={errors.email?.message}
         />
-        <FormControl variant="outlined">
-          <InputLabel htmlFor="password">Password</InputLabel>
-          <OutlinedInput
-            id="password"
-            type={showPassword ? 'text' : 'password'}
-            endAdornment={
+        <TextField
+          autoComplete="current-password"
+          fullWidth
+          label="Password"
+          required
+          type={showPassword ? 'text' : 'password'}
+          {...register('password')}
+          error={Boolean(errors.password)}
+          helperText={errors.password?.message}
+          InputProps={{
+            endAdornment: (
               <InputAdornment position="end">
                 <IconButton
-                  aria-label="Botão para mudar visibilidade do campo de senha"
+                  aria-label="toggle password visibility"
                   onClick={handleClickShowPassword}
                   edge="end"
                 >
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
-            }
-            label="Password"
-            autoComplete="current-password"
-          />
-        </FormControl>
-        <Button color="secondary" size="large" variant="contained">
+            ),
+          }}
+        />
+
+        <Button
+          type="submit"
+          color="secondary"
+          size="large"
+          variant="contained"
+        >
           Entrar
         </Button>
       </Stack>
