@@ -1,8 +1,9 @@
-import { PaletteColor, alpha, createTheme } from '@mui/material/styles';
+import { PaletteColor, createTheme } from '@mui/material/styles';
 
 let theme = createTheme({
   palette: {
     primary: {
+      '100': '#E6E9F2',
       light: '#222244',
       main: '#111133',
     },
@@ -19,10 +20,6 @@ let theme = createTheme({
           letterSpacing: 0.5,
           paddingInline: 22,
           fontWeight: 500,
-          '&.Mui-disabled': {
-            background: alpha('#000000', 0.12),
-            color: alpha('#000000', 0.38),
-          },
         },
       },
     },
@@ -52,6 +49,7 @@ let theme = createTheme({
 
 interface CustomPaletteColor extends PaletteColor {
   '60': string;
+  '110': string;
   '120': string;
   '130': string;
 }
@@ -64,6 +62,7 @@ theme = createTheme(theme, {
         main: '#818388',
         light: '#A1A3AA',
         '60': '#FCFDFF',
+        '110': '#515255',
         '120': '#303133',
         '130': '#0B0C0D',
       } as CustomPaletteColor,
@@ -73,6 +72,20 @@ theme = createTheme(theme, {
   components: {
     MuiButton: {
       styleOverrides: {
+        root: {
+          '&.Mui-disabled': {
+            background: theme.palette.grey[300],
+            color: theme.palette.grey[600],
+          },
+        },
+        containedPrimary: {
+          background: theme.palette.grey[300],
+          color: theme.palette.grey[600],
+          boxShadow: 'none',
+          '&:hover': {
+            background: theme.palette.grey[400],
+          },
+        },
         containedSecondary: {
           background: theme.palette.secondary.main,
         },

@@ -1,4 +1,3 @@
-import { PhotoLibrary } from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -9,6 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import { Dispatch, SetStateAction } from 'react';
+import ImageCard from '../Cards/ImageCard';
 
 interface ProjectModalFormProps {
   open: boolean;
@@ -49,29 +49,7 @@ export default function ProjectModalForm({
             }}
             maxWidth={390}
           >
-            {/* TODO: Extrair para novo component */}
-            <Stack sx={{ height: '100%' }} spacing={1}>
-              <Typography>
-                Selecione o conteúdo que você deseja fazer upload
-              </Typography>
-
-              <Stack
-                justifyContent="center"
-                alignItems="center"
-                gap={1}
-                borderRadius={1}
-                px={{ xs: 4, sm: 8 }}
-                height="100%"
-                bgcolor="#E6E9F2"
-              >
-                <PhotoLibrary sx={{ fill: '#323232', height: 46, width: 46 }} />
-
-                <Typography fontSize={14} color="#303133">
-                  Compartilhe seu talento com milhares de pessoas
-                </Typography>
-              </Stack>
-            </Stack>
-            {/*  */}
+            <ImageCard />
           </Grid>
           <Grid xs={12} md item sx={{ order: { xs: 1, md: 2 } }}>
             <ProjectForm />
