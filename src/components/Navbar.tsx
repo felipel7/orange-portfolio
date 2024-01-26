@@ -16,10 +16,12 @@ import {
   Toolbar,
   Tooltip,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import logo from '../assets/logo.png';
+import logo from '../assets/logo.svg';
 
 const pages = [
   { id: 1, label: 'Meus projetos', url: '/meus-projetos' },
@@ -29,6 +31,8 @@ const pages = [
 export default function Navbar() {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -46,8 +50,8 @@ export default function Navbar() {
   };
 
   return (
-    <AppBar position="static" elevation={0} sx={{ backgroundColor: '#111133' }}>
-      <Container maxWidth="xl">
+    <AppBar position="static" elevation={isMobile ? 4 : 0} color="primary">
+      <Container maxWidth="lg">
         <Toolbar disableGutters sx={{ px: 1, height: 73 }}>
           <Logo sx={{ display: { xs: 'none', md: 'flex' }, mr: '100px' }} />
 
@@ -64,12 +68,12 @@ export default function Navbar() {
             </IconButton>
             <Menu
               id="menu-appbar"
+              keepMounted
               anchorEl={anchorElNav}
               anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'left',
               }}
-              keepMounted
               transformOrigin={{
                 vertical: 'top',
                 horizontal: 'left',
@@ -83,14 +87,16 @@ export default function Navbar() {
               {pages.map(page => (
                 <MenuItem key={page.id} onClick={handleCloseNavMenu}>
                   <RouterLink to={page.url} style={{ textDecoration: 'none' }}>
-                    <Typography color="black" fontWeight={400}>
-                      {page.label}
-                    </Typography>
+                    <Typography color="primary">{page.label}</Typography>
                   </RouterLink>
                 </MenuItem>
               ))}
               <Divider />
-              <MenuItem>Configurações</MenuItem>
+              <MenuItem color="primary">
+                <RouterLink to="/" style={{ textDecoration: 'none' }}>
+                  <Typography color="primary">Configurações</Typography>
+                </RouterLink>
+              </MenuItem>
             </Menu>
           </Box>
 
@@ -107,7 +113,7 @@ export default function Navbar() {
                 to={page.url}
                 style={{ textDecoration: 'none' }}
               >
-                <Typography color="white" fontWeight={500}>
+                <Typography color="neutral.60" variant="h6">
                   {page.label}
                 </Typography>
               </RouterLink>
@@ -138,18 +144,16 @@ export default function Navbar() {
               onClose={handleCloseUserMenu}
             >
               <MenuItem onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">Sair</Typography>
+                <Typography textAlign="center">Desconectar</Typography>
               </MenuItem>
             </Menu>
 
             <IconButton
               size="medium"
-              aria-label="show 17 new notifications"
+              aria-label="show notifications"
               color="inherit"
             >
-              {/* TODO: Adicionar notificacoes: <Badge badgeContent={17} color="error"> */}
               <NotificationsIcon />
-              {/* <Badge /> */}
             </IconButton>
           </Stack>
         </Toolbar>
@@ -161,7 +165,16 @@ export default function Navbar() {
 function Logo({ ...rest }) {
   return (
     <Link component={RouterLink} to="/" {...rest}>
-      <img src={logo} alt="Orange portfolio logo" />
+      <Box
+        component="img"
+        src={logo}
+        alt="Orange portfolio logo"
+        sx={{
+          height: { xs: '31px', sm: '41px' },
+          width: { xs: '83px', sm: '111px' },
+          objectFit: 'contain',
+        }}
+      />
     </Link>
   );
 }
