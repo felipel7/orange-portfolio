@@ -52,6 +52,8 @@ let theme = createTheme({
 
 interface CustomPaletteColor extends PaletteColor {
   '60': string;
+  '120': string;
+  '130': string;
 }
 
 theme = createTheme(theme, {
@@ -62,6 +64,8 @@ theme = createTheme(theme, {
         main: '#818388',
         light: '#A1A3AA',
         '60': '#FCFDFF',
+        '120': '#303133',
+        '130': '#0B0C0D',
       } as CustomPaletteColor,
       name: 'neutral',
     }),

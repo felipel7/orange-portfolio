@@ -9,8 +9,8 @@ import {
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
+import UserCard from '../components/Cards/UserCard';
 import ProjectFormModal from '../components/Forms/ProjectFormModal';
-import UserActionPanel from '../components/UserActionPanel';
 
 export default function HomePage() {
   const [openFormModal, setOpenFormModal] = useState(false);
@@ -20,7 +20,7 @@ export default function HomePage() {
       <Container maxWidth="xl">
         <Stack px={1}>
           <Box mt={{ xs: 7, sm: '112px' }} mb={{ xs: 5, sm: 7 }}>
-            <UserActionPanel />
+            <UserCard />
           </Box>
           <AppSearch />
 
