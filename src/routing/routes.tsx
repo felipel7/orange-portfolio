@@ -3,6 +3,7 @@ import Layout from '../Layout';
 import HomePage from '../pages/Home';
 import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../pages/RegisterPage';
+import ErrorPage from './ErrorPage';
 import PrivateRoutes from './PrivateRoute';
 
 const router = createBrowserRouter([
@@ -16,6 +17,7 @@ const router = createBrowserRouter([
   },
   {
     element: <PrivateRoutes />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: '/',
