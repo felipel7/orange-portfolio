@@ -1,4 +1,6 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
+  Autocomplete,
   Box,
   Button,
   Grid,
@@ -8,6 +10,8 @@ import {
   Typography,
 } from '@mui/material';
 import { Dispatch, SetStateAction } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { ProjectFormData, projectSchema } from '../../validation/projectSchema';
 import ImageCard from '../Cards/ImageCard';
 
 interface ProjectModalFormProps {
@@ -64,7 +68,13 @@ export default function ProjectModalForm({
             <Typography>Visualizar publicação</Typography>
 
             <Stack direction="row" gap={2}>
-              <Button size="large" variant="contained" color="secondary">
+              <Button
+                color="secondary"
+                form="project-form"
+                size="large"
+                type="submit"
+                variant="contained"
+              >
                 Salvar
               </Button>
               <Button
@@ -84,16 +94,68 @@ export default function ProjectModalForm({
 }
 
 export function ProjectForm() {
-  // TODO: controle dos campos
-  // TODO: handleSubmit
+  const {
+    handleSubmit,
+    register,
+    control,
+    formState: { errors },
+    reset,
+  } = useForm<ProjectFormData>({
+    resolver: zodResolver(projectSchema),
+  });
+
+  const onSubmit = (data: ProjectFormData) => {
+    console.log(data);
+    reset();
+  };
 
   return (
-    <form>
+    <form id="project-form" onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={2}>
-        <TextField label="Título" />
-        <TextField label="Tags" />
-        <TextField label="Link" />
-        <TextField multiline label="Descrição" rows={3} />
+        <TextField
+          label="Título"
+          {...register('title')}
+          error={Boolean(errors.title)}
+          helperText={errors.title?.message}
+        />
+        <Controller
+          name="tags"
+          control={control}
+          defaultValue={[]}
+          render={({ field: { ref, onChange, ...field } }) => (
+            <Autocomplete
+              multiple
+              options={[]}
+              onChange={(_, data) => onChange(data)}
+              freeSolo
+              renderInput={params => (
+                <TextField
+                  {...params}
+                  {...field}
+                  variant="outlined"
+                  label="Tags"
+                  error={Boolean(errors.tags)}
+                  helperText={errors.tags?.message}
+                  inputRef={ref}
+                />
+              )}
+            />
+          )}
+        />
+        <TextField
+          label="Link"
+          {...register('link')}
+          error={Boolean(errors.link)}
+          helperText={errors.link?.message}
+        />
+        <TextField
+          multiline
+          label="Descrição"
+          rows={3}
+          {...register('description')}
+          error={Boolean(errors.description)}
+          helperText={errors.description?.message}
+        />
       </Stack>
     </form>
   );
