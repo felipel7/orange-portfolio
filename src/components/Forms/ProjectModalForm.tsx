@@ -3,13 +3,15 @@ import {
   Autocomplete,
   Box,
   Button,
+  ButtonBase,
   Grid,
   Modal,
   Stack,
   TextField,
   Typography,
 } from '@mui/material';
-import { Dispatch, SetStateAction } from 'react';
+import axios from 'axios';
+import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { ProjectFormData, projectSchema } from '../../validation/projectSchema';
 import ImageCard from '../Cards/ImageCard';
@@ -32,6 +34,24 @@ export default function ProjectModalForm({
   open = false,
   setOpen,
 }: ProjectModalFormProps) {
+  const [imageUrl, setImageUrl] = useState('');
+
+  const onImageUpload = async (event: ChangeEvent<HTMLInputElement>) => {
+    const imageFile = event.target.files![0];
+    const formData = new FormData();
+    formData.append('file', imageFile);
+    formData.append('upload_preset', 'orange');
+
+    const res = await axios.post(
+      `https://api.cloudinary.com/v1_1/${
+        import.meta.env.VITE_PUBLIC_CLOUDINARY_NAME
+      }/image/upload`,
+      formData
+    );
+
+    setImageUrl(res.data.secure_url);
+  };
+
   return (
     <Modal open={open} sx={{ overflowY: 'auto' }}>
       <Box sx={style} px={3}>
@@ -50,13 +70,37 @@ export default function ProjectModalForm({
             item
             sx={{
               order: { xs: 2, md: 1 },
+              overflow: 'hidden',
             }}
             maxWidth={390}
           >
-            <ImageCard />
+            {imageUrl ? (
+              <Box
+                component="img"
+                src={imageUrl}
+                alt="Imagem de Prévia do Projeto"
+                sx={{
+                  maxWidth: 389,
+                  maxHeight: 336,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
+              />
+            ) : (
+              <ButtonBase sx={{ height: '100%' }} component="label">
+                <ImageCard />
+                <input
+                  type="file"
+                  accept="image/png, image/jpeg, image/jpg"
+                  hidden
+                  onChange={onImageUpload}
+                />
+              </ButtonBase>
+            )}
           </Grid>
           <Grid xs={12} md item sx={{ order: { xs: 1, md: 2 } }}>
-            <ProjectForm />
+            <ProjectForm imageProject={imageUrl} />
           </Grid>
           <Box
             display="flex"
@@ -93,7 +137,7 @@ export default function ProjectModalForm({
   );
 }
 
-export function ProjectForm() {
+export function ProjectForm({ imageProject }: { imageProject: string }) {
   const {
     handleSubmit,
     register,
@@ -105,6 +149,7 @@ export function ProjectForm() {
   });
 
   const onSubmit = (data: ProjectFormData) => {
+    data.imageProject = imageProject;
     console.log(data);
     reset();
   };
@@ -151,7 +196,7 @@ export function ProjectForm() {
         <TextField
           multiline
           label="Descrição"
-          rows={3}
+          rows={4}
           {...register('description')}
           error={Boolean(errors.description)}
           helperText={errors.description?.message}
