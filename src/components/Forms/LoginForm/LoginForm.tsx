@@ -1,12 +1,12 @@
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import {
   Button,
   IconButton,
   InputAdornment,
   Stack,
   TextField,
-} from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useLoginForm } from "./useLoginForm";
+} from '@mui/material';
+import { useLoginForm } from './useLoginForm';
 
 export function LoginForm() {
   const { formMethods, showPassword, setShowPassword, onSubmit } =
@@ -23,10 +23,11 @@ export function LoginForm() {
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={2}>
         <TextField
+          required
           label="Email address"
           autoComplete="email"
           variant="outlined"
-          {...register("email")}
+          {...register('email')}
           error={Boolean(errors.email)}
           helperText={errors.email?.message}
         />
@@ -35,8 +36,8 @@ export function LoginForm() {
           fullWidth
           label="Password"
           required
-          type={showPassword ? "text" : "password"}
-          {...register("password")}
+          type={showPassword ? 'text' : 'password'}
+          {...register('password')}
           error={Boolean(errors.password)}
           helperText={errors.password?.message}
           InputProps={{

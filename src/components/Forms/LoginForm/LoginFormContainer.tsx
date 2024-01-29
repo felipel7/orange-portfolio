@@ -1,6 +1,8 @@
-import { Typography, Stack, Link } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
-import { LoginForm } from "./LoginForm";
+import { Link, Stack, Typography } from '@mui/material';
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
+import { Link as RouterLink } from 'react-router-dom';
+import { LoginForm } from './LoginForm';
 
 export function LoginFormContainer() {
   return (
@@ -8,6 +10,17 @@ export function LoginFormContainer() {
       <Typography component="h2" variant="h3" color="primary">
         Entre no Orange Portfólio
       </Typography>
+      <GoogleLogin
+        onSuccess={credentialResponse => {
+          console.log('credentialResponse', credentialResponse);
+          const decoded = jwtDecode(credentialResponse.credential!);
+          console.log('jwt-decoded', decoded);
+          // TODO: enviar dados para o backend
+        }}
+        onError={() => {
+          console.log('Oops... deu ruim');
+        }}
+      />
       <Stack maxWidth={517} width="100%" spacing={2}>
         <Typography
           color="neutral.110"
