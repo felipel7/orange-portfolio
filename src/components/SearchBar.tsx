@@ -1,41 +1,52 @@
 import { Clear } from '@mui/icons-material';
 import { IconButton, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import useDebounce from '../hooks/useDebounce';
 
 interface SearchBarProps {
   onSearch: (val: string) => void;
+  label?: string;
+  maxWidth?: number;
 }
 
-export default function SearchBar({ onSearch }: SearchBarProps) {
+export default function SearchBar({
+  onSearch,
+  label,
+  maxWidth = 512,
+}: SearchBarProps) {
   const [searchTerm, setSearchTerm] = useState('');
-  const debounceValue = useDebounce(searchTerm);
 
   useEffect(() => {
-    onSearch(debounceValue);
-  }, [debounceValue, onSearch]);
+    onSearch(searchTerm);
+  }, [searchTerm, onSearch]);
 
   const handleClear = () => {
-    setSearchTerm('');
     onSearch('');
+    setSearchTerm('');
   };
 
   return (
     <>
-      <Typography
-        color="neutral.130"
-        component="h4"
-        sx={{ opacity: 0.6 }}
-        variant="h6"
-      >
-        Meus Projetos
-      </Typography>
+      {label && (
+        <Typography
+          color="neutral.130"
+          component="h4"
+          sx={{ opacity: 0.6 }}
+          variant="h6"
+        >
+          {label}
+        </Typography>
+      )}
 
       <TextField
         label="Buscar tags"
+        fullWidth
         onChange={e => setSearchTerm(e.target.value)}
         value={searchTerm}
-        sx={{ maxWidth: 512, marginTop: 2, marginBottom: { xs: 3, sm: 5 } }}
+        sx={{
+          maxWidth,
+          marginTop: 2,
+          marginBottom: { xs: 3, sm: 5 },
+        }}
         InputProps={{
           endAdornment: searchTerm && (
             <IconButton onClick={handleClear}>
