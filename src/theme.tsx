@@ -1,16 +1,16 @@
-import { PaletteColor, createTheme } from '@mui/material/styles';
+import { PaletteColor, createTheme } from "@mui/material/styles";
 
 let theme = createTheme({
   palette: {
     primary: {
-      '100': '#E6E9F2',
-      light: '#222244',
-      main: '#111133',
+      "100": "#E6E9F2",
+      light: "#222244",
+      main: "#111133",
     },
     secondary: {
-      light: '#FF8833',
-      main: '#FF5522',
-      dark: '#CC4400',
+      light: "#FF8833",
+      main: "#FF5522",
+      dark: "#CC4400",
     },
   },
   components: {
@@ -25,10 +25,10 @@ let theme = createTheme({
     },
   },
   typography: {
-    fontFamily: 'Roboto',
+    fontFamily: "Roboto",
     h3: {
       fontSize: 48,
-      '@media (max-width:600px)': {
+      "@media (max-width:600px)": {
         fontSize: 24,
       },
     },
@@ -37,7 +37,7 @@ let theme = createTheme({
     },
     h5: {
       fontSize: 24,
-      '@media (max-width:600px)': {
+      "@media (max-width:600px)": {
         fontSize: 16,
       },
     },
@@ -48,32 +48,32 @@ let theme = createTheme({
 });
 
 interface CustomPaletteColor extends PaletteColor {
-  '60': string;
-  '110': string;
-  '120': string;
-  '130': string;
+  "60": string;
+  "110": string;
+  "120": string;
+  "130": string;
 }
 
 theme = createTheme(theme, {
   palette: {
     neutral: theme.palette.augmentColor({
       color: {
-        dark: '#515255',
-        main: '#818388',
-        light: '#A1A3AA',
-        '60': '#FCFDFF',
-        '110': '#515255',
-        '120': '#303133',
-        '130': '#0B0C0D',
+        dark: "#515255",
+        main: "#818388",
+        light: "#A1A3AA",
+        "60": "#FCFDFF",
+        "110": "#515255",
+        "120": "#303133",
+        "130": "#0B0C0D",
       } as CustomPaletteColor,
-      name: 'neutral',
+      name: "neutral",
     }),
   },
   components: {
     MuiButton: {
       styleOverrides: {
         root: {
-          '&.Mui-disabled': {
+          "&.Mui-disabled": {
             background: theme.palette.grey[300],
             color: theme.palette.grey[600],
           },
@@ -81,8 +81,8 @@ theme = createTheme(theme, {
         containedPrimary: {
           background: theme.palette.grey[300],
           color: theme.palette.grey[600],
-          boxShadow: 'none',
-          '&:hover': {
+          boxShadow: "none",
+          "&:hover": {
             background: theme.palette.grey[400],
           },
         },

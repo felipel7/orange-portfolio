@@ -1,18 +1,19 @@
-import { createBrowserRouter } from 'react-router-dom';
-import Layout from '../Layout';
-import HomePage from '../pages/Home';
-import LoginPage from '../pages/LoginPage';
-import RegisterPage from '../pages/RegisterPage';
-import ErrorPage from './ErrorPage';
-import PrivateRoutes from './PrivateRoute';
+import { createBrowserRouter } from "react-router-dom";
+import Layout from "../Layout";
+import HomePage from "../pages/Home";
+import LoginPage from "../pages/LoginPage";
+import RegisterPage from "../pages/RegisterPage";
+import ErrorPage from "./ErrorPage";
+import PrivateRoutes from "./PrivateRoute";
+import { DiscoveryPage } from "../pages/DiscoveryPage";
 
 const router = createBrowserRouter([
   {
-    path: '/login',
+    path: "/login",
     element: <LoginPage />,
   },
   {
-    path: '/cadastro',
+    path: "/cadastro",
     element: <RegisterPage />,
   },
   {
@@ -20,11 +21,11 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: '/',
+        path: "/",
         element: <Layout />,
         children: [
           { index: true, element: <HomePage /> },
-          // { path: 'descobrir', element: <DiscoveryPage /> },
+          { path: "descobrir", element: <DiscoveryPage /> },
         ],
       },
     ],
