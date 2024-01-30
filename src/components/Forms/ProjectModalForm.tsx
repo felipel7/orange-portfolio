@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { PhotoLibrary } from '@mui/icons-material';
 import {
   Autocomplete,
   Box,
@@ -14,7 +15,6 @@ import axios from 'axios';
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { ProjectFormData, projectSchema } from '../../validation/projectSchema';
-import ImageCard from '../Cards/ImageCard';
 
 interface ProjectModalFormProps {
   open: boolean;
@@ -74,30 +74,54 @@ export default function ProjectModalForm({
             }}
             maxWidth={390}
           >
-            {imageUrl ? (
-              <Box
-                component="img"
-                src={imageUrl}
-                alt="Imagem de Prévia do Projeto"
-                sx={{
-                  maxWidth: 389,
-                  maxHeight: 336,
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'contain',
-                }}
-              />
-            ) : (
-              <ButtonBase sx={{ height: '100%' }} component="label">
-                <ImageCard />
-                <input
-                  type="file"
-                  accept="image/png, image/jpeg, image/jpg"
-                  hidden
-                  onChange={onImageUpload}
+            <Stack sx={{ height: '100%', cursor: 'pointer' }} spacing={1}>
+              <Typography>
+                Selecione o conteúdo que você deseja fazer upload
+              </Typography>
+              {imageUrl ? (
+                <Box
+                  component="img"
+                  src={imageUrl}
+                  alt="Imagem de Prévia do Projeto"
+                  sx={{
+                    maxWidth: 389,
+                    maxHeight: 336,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
                 />
-              </ButtonBase>
-            )}
+              ) : (
+                <ButtonBase sx={{ height: '100%' }} component="label">
+                  <Stack
+                    alignItems="center"
+                    bgcolor="primary.100"
+                    borderRadius={1}
+                    color="neutral.120"
+                    gap={1}
+                    height="100%"
+                    justifyContent="center"
+                    minHeight={258}
+                    px={{ xs: 4, sm: 8 }}
+                  >
+                    <PhotoLibrary
+                      sx={{ fill: '#323232', height: 46, width: 46 }}
+                    />
+
+                    <Typography fontSize={14}>
+                      Compartilhe seu talento com milhares de pessoas
+                    </Typography>
+                  </Stack>
+
+                  <input
+                    type="file"
+                    accept="image/png, image/jpeg, image/jpg"
+                    hidden
+                    onChange={onImageUpload}
+                  />
+                </ButtonBase>
+              )}
+            </Stack>
           </Grid>
           <Grid xs={12} md item sx={{ order: { xs: 1, md: 2 } }}>
             <ProjectForm imageProject={imageUrl} />
@@ -194,6 +218,7 @@ export function ProjectForm({ imageProject }: { imageProject: string }) {
           helperText={errors.link?.message}
         />
         <TextField
+          id="project-description"
           multiline
           label="Descrição"
           rows={4}

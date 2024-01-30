@@ -1,26 +1,25 @@
-import { Stack, Container, Typography, Box } from "@mui/material";
-import { SearchBarDiscovery } from "../components/Forms/SearchBarDiscovery";
-import { CardGrid } from "../components/Cards/CardGridDiscovery";
+import { Container, Stack, Typography } from '@mui/material';
+import SearchableProjects from '../components/SearchableProjects';
 
-export const DiscoveryPage = () => {
+export default function DiscoveryPage() {
   return (
-    <Stack alignItems={"center"}>
-      <Typography
-        variant="h4"
-        sx={{
-          my: 8,
-        }}
-      >
-        Junte-se à comunidade de inovação, inspiração <br /> e descobertas,
-        transformando experiências em <br />
-        <Box display={"flex"} justifyContent={"center"}>
-          conexões inesquecíveis
-        </Box>
-      </Typography>
-      <Container maxWidth="lg">
-        <SearchBarDiscovery />
-        <CardGrid />
-      </Container>
-    </Stack>
+    <Container maxWidth="lg" component="section">
+      <Stack px={1}>
+        <Typography
+          component="h2"
+          variant="h2"
+          textAlign="center"
+          maxWidth={744}
+          mx="auto"
+          marginTop={{ xs: '64px', md: '112px' }}
+          marginBottom={{ xs: '40px', md: '120px' }}
+        >
+          Junte-se à comunidade de inovação, inspiração e descobertas,
+          transformando experiências em conexões inesquecíveis
+        </Typography>
+
+        <SearchableProjects maxWidth={712} />
+      </Stack>
+    </Container>
   );
-};
+}
