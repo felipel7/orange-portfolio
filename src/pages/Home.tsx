@@ -2,7 +2,7 @@ import { Box, Container, Stack } from '@mui/material';
 import { useState } from 'react';
 import UserCard from '../components/Cards/UserCard';
 import ProjectModalForm from '../components/Forms/ProjectModalForm';
-import ProjectList from '../components/ProjectList';
+import SearchableProjects from '../components/SearchableProjects';
 
 export default function HomePage() {
   const [openFormModal, setOpenFormModal] = useState(false);
@@ -14,7 +14,11 @@ export default function HomePage() {
           <Box mt={{ xs: 7, sm: '112px' }} mb={{ xs: 5, sm: 7 }}>
             <UserCard />
           </Box>
-          <ProjectList setOpenFormModal={setOpenFormModal} />
+          <SearchableProjects
+            action={() => setOpenFormModal(true)}
+            searchBarLabel="Meus Projetos"
+            showTags
+          />
         </Stack>
       </Container>
       <ProjectModalForm open={openFormModal} setOpen={setOpenFormModal} />
