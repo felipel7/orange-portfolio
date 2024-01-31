@@ -1,7 +1,7 @@
 import { Box, Container, Stack } from '@mui/material';
 import { useState } from 'react';
 import UserCard from '../components/Cards/UserCard';
-import ProjectModalForm from '../components/Forms/ProjectModalForm';
+import ProjectModalForm from '../components/Forms/ProjectForm/ProjectModalForm';
 import SearchableProjects from '../components/SearchableProjects';
 
 export default function HomePage() {

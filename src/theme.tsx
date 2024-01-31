@@ -8,6 +8,9 @@ let theme = createTheme({
       main: '#111133',
     },
     secondary: {
+      '50': '#FFEECC',
+      '100': '#FFAA66',
+      '200': '#FFCC99',
       light: '#FF8833',
       main: '#FF5522',
       dark: '#CC4400',
