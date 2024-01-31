@@ -1,5 +1,6 @@
 import { Avatar, Box, Chip, Grid, Stack, Typography } from '@mui/material';
 import { formatDate } from '../../utils/formatDate';
+import ProjectOptionsMenu from '../ProjectOptionsMenu';
 
 interface ProjectCardProps {
   project: Project;
@@ -8,7 +9,7 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project, showTags }: ProjectCardProps) {
   return (
-    <Grid item xs={12} sm={4} md={4}>
+    <Grid item xs={12} sm={4} md={4} position="relative">
       <Box
         component="img"
         src={project.imageProject}
@@ -36,15 +37,18 @@ export default function ProjectCard({ project, showTags }: ProjectCardProps) {
         </Box>
 
         {showTags && (
-          <Box display="flex" gap={1}>
-            {project.tags.split(',').map(tag => (
-              <Chip
-                key={tag}
-                label={tag}
-                sx={{ fontWeight: 500, color: 'primary' }}
-              />
-            ))}
-          </Box>
+          <>
+            <Box display="flex" gap={1}>
+              {project.tags.split(',').map(tag => (
+                <Chip
+                  key={tag}
+                  label={tag}
+                  sx={{ fontWeight: 500, color: 'primary' }}
+                />
+              ))}
+            </Box>
+            <ProjectOptionsMenu project={project} />
+          </>
         )}
       </Stack>
     </Grid>
