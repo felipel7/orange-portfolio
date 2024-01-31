@@ -11,9 +11,11 @@ import {
 } from '@mui/material';
 import { useRef, useState } from 'react';
 import ProjectModalForm from './Forms/ProjectForm/ProjectModalForm';
+import DeleteDialog from './Modal/DeleteDialog';
 
 export default function ProjectOptionsMenu({ project }: { project: Project }) {
   const [open, setOpen] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
   const [openEditForm, setOpenEditForm] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
 
@@ -31,6 +33,7 @@ export default function ProjectOptionsMenu({ project }: { project: Project }) {
 
   const handleDelete = () => {
     setOpen(false);
+    setOpenDelete(true);
     // TODO: enviar um POST para excluir o projeto
     // TODO: dar um feedback visual pro usuario snackbar/toast
   };
@@ -105,6 +108,7 @@ export default function ProjectOptionsMenu({ project }: { project: Project }) {
         setOpen={setOpenEditForm}
         project={project}
       />
+      <DeleteDialog open={openDelete} setOpen={setOpenDelete} />
     </>
   );
 }
