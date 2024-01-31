@@ -24,7 +24,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import logo from '../assets/logo.svg';
 
 const pages = [
-  { id: 1, label: 'Meus projetos', url: '/meus-projetos' },
+  { id: 1, label: 'Meus projetos', url: '/' },
   { id: 2, label: 'Descobrir', url: '/descobrir' },
 ];
 

@@ -9,6 +9,7 @@ export const projectSchema = z.object({
     .max(255, 'Deve ter no máximo 255 letras'),
   tags: z
     .array(z.string())
+    .default([])
     .refine(i => i.length >= 1, {
       message: 'Precisa ter pelo menos uma tag',
     })

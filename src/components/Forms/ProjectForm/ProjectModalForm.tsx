@@ -1,24 +1,22 @@
-import { zodResolver } from '@hookform/resolvers/zod';
 import { PhotoLibrary } from '@mui/icons-material';
 import {
-  Autocomplete,
   Box,
   Button,
   ButtonBase,
   Grid,
   Modal,
   Stack,
-  TextField,
   Typography,
 } from '@mui/material';
 import axios from 'axios';
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { ProjectFormData, projectSchema } from '../../validation/projectSchema';
+import ProjectForm from './ProjectForm';
 
 interface ProjectModalFormProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  isEdit?: boolean;
+  project?: Project;
 }
 
 const style = {
@@ -33,8 +31,10 @@ const style = {
 export default function ProjectModalForm({
   open = false,
   setOpen,
+  isEdit = false,
+  project,
 }: ProjectModalFormProps) {
-  const [imageUrl, setImageUrl] = useState('');
+  const [imageUrl, setImageUrl] = useState(project?.imageProject);
 
   const onImageUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const imageFile = event.target.files![0];
@@ -64,7 +64,7 @@ export default function ProjectModalForm({
           p={3}
         >
           <Typography flexBasis="100%" variant="h4">
-            Adicionar projeto
+            {isEdit ? 'Editar' : 'Adicionar'} projeto
           </Typography>
           <Grid
             item
@@ -78,21 +78,26 @@ export default function ProjectModalForm({
               <Typography>
                 Selecione o conteúdo que você deseja fazer upload
               </Typography>
-              {imageUrl ? (
-                <Box
-                  component="img"
-                  src={imageUrl}
-                  alt="Imagem de Prévia do Projeto"
-                  sx={{
-                    maxWidth: 389,
-                    maxHeight: 336,
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'contain',
-                  }}
-                />
-              ) : (
-                <ButtonBase sx={{ height: '100%' }} component="label">
+              <ButtonBase sx={{ height: '100%' }} component="label">
+                {imageUrl ? (
+                  <Box
+                    component="div"
+                    sx={{
+                      objectFit: 'cover',
+                      borderRadius: 1,
+                      overflow: 'hidden',
+                      width: '100%',
+                      height: '100%',
+                      maxWidth: 389,
+                      maxHeight: 336,
+                      minHeight: 304,
+                      background: `url(${
+                        project?.imageProject || imageUrl
+                      }) no-repeat`,
+                      backgroundSize: 'cover',
+                    }}
+                  />
+                ) : (
                   <Stack
                     alignItems="center"
                     bgcolor="primary.100"
@@ -112,19 +117,19 @@ export default function ProjectModalForm({
                       Compartilhe seu talento com milhares de pessoas
                     </Typography>
                   </Stack>
+                )}
 
-                  <input
-                    type="file"
-                    accept="image/png, image/jpeg, image/jpg"
-                    hidden
-                    onChange={onImageUpload}
-                  />
-                </ButtonBase>
-              )}
+                <input
+                  type="file"
+                  accept="image/png, image/jpeg, image/jpg"
+                  hidden
+                  onChange={onImageUpload}
+                />
+              </ButtonBase>
             </Stack>
           </Grid>
           <Grid xs={12} md item sx={{ order: { xs: 1, md: 2 } }}>
-            <ProjectForm imageProject={imageUrl} />
+            <ProjectForm imageProject={imageUrl} project={project} />
           </Grid>
           <Box
             display="flex"
@@ -158,75 +163,5 @@ export default function ProjectModalForm({
         </Grid>
       </Box>
     </Modal>
-  );
-}
-
-export function ProjectForm({ imageProject }: { imageProject: string }) {
-  const {
-    handleSubmit,
-    register,
-    control,
-    formState: { errors },
-    reset,
-  } = useForm<ProjectFormData>({
-    resolver: zodResolver(projectSchema),
-  });
-
-  const onSubmit = (data: ProjectFormData) => {
-    data.imageProject = imageProject;
-    console.log(data);
-    reset();
-  };
-
-  return (
-    <form id="project-form" onSubmit={handleSubmit(onSubmit)}>
-      <Stack spacing={2}>
-        <TextField
-          label="Título"
-          {...register('title')}
-          error={Boolean(errors.title)}
-          helperText={errors.title?.message}
-        />
-        <Controller
-          name="tags"
-          control={control}
-          defaultValue={[]}
-          render={({ field: { ref, onChange, ...field } }) => (
-            <Autocomplete
-              multiple
-              options={[]}
-              onChange={(_, data) => onChange(data)}
-              freeSolo
-              renderInput={params => (
-                <TextField
-                  {...params}
-                  {...field}
-                  variant="outlined"
-                  label="Tags"
-                  error={Boolean(errors.tags)}
-                  helperText={errors.tags?.message}
-                  inputRef={ref}
-                />
-              )}
-            />
-          )}
-        />
-        <TextField
-          label="Link"
-          {...register('link')}
-          error={Boolean(errors.link)}
-          helperText={errors.link?.message}
-        />
-        <TextField
-          id="project-description"
-          multiline
-          label="Descrição"
-          rows={4}
-          {...register('description')}
-          error={Boolean(errors.description)}
-          helperText={errors.description?.message}
-        />
-      </Stack>
-    </form>
   );
 }

@@ -1,6 +1,6 @@
 import { Avatar, Button, Stack, Typography } from '@mui/material';
 import { useState } from 'react';
-import ProjectModalForm from '../Forms/ProjectModalForm';
+import ProjectModalForm from '../Forms/ProjectForm/ProjectModalForm';
 
 export default function UserCard() {
   const [openFormModal, setOpenFormModal] = useState(false);
@@ -44,7 +44,7 @@ export default function UserCard() {
           </Typography>
 
           <Button
-            color="secondary"
+            color="primary"
             onClick={() => setOpenFormModal(true)}
             size="large"
             variant="contained"
