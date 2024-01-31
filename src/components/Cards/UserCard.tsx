@@ -5,6 +5,10 @@ import ProjectModalForm from '../Forms/ProjectForm/ProjectModalForm';
 export default function UserCard() {
   const [openFormModal, setOpenFormModal] = useState(false);
 
+  const handleClose = () => {
+    setOpenFormModal(false);
+  };
+
   return (
     <>
       <Stack
@@ -53,7 +57,7 @@ export default function UserCard() {
           </Button>
         </Stack>
       </Stack>
-      <ProjectModalForm open={openFormModal} setOpen={setOpenFormModal} />
+      <ProjectModalForm open={openFormModal} onClose={handleClose} />
     </>
   );
 }

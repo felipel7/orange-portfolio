@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Autocomplete, Stack, TextField } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import {
   ProjectFormData,
   projectSchema,
@@ -9,12 +10,17 @@ import {
 interface ProjectFormProps {
   imageProject: string | undefined;
   project?: Project;
+  onClose: () => void;
+  isEdit: boolean;
 }
 
 export default function ProjectForm({
   imageProject,
   project,
+  onClose,
+  isEdit,
 }: ProjectFormProps) {
+  const navigate = useNavigate();
   const {
     handleSubmit,
     register,
@@ -26,17 +32,22 @@ export default function ProjectForm({
   });
 
   const onSubmit = (data: ProjectFormData) => {
-    if (!imageProject) {
-      console.log('Sem foto');
-      // TODO: mostrar toast erro
-      return;
-    }
+    // if (!imageProject) {
+    //   console.log('Sem foto');
+    //   // TODO: mostrar toast erro
+    //   return;
+    // }
 
     data.imageProject = imageProject;
     // TODO: enviar dados para o backend
     console.log(data);
     reset();
-    // TODO: abrir modal de sucesso
+    onClose();
+    const onSuccessMsg = isEdit
+      ? 'Edição concluída com sucesso!'
+      : 'Projeto adicionado com sucesso!';
+
+    navigate('/sucesso/' + onSuccessMsg);
   };
 
   return (

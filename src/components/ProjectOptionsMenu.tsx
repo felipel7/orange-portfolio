@@ -31,6 +31,10 @@ export default function ProjectOptionsMenu({ project }: { project: Project }) {
     setOpen(false);
   };
 
+  const handleEditFormClose = () => {
+    setOpenEditForm(false);
+  };
+
   const handleDelete = () => {
     setOpen(false);
     setOpenDelete(true);
@@ -102,12 +106,14 @@ export default function ProjectOptionsMenu({ project }: { project: Project }) {
           </>
         )}
       </Box>
+
       <ProjectModalForm
         isEdit
         open={openEditForm}
-        setOpen={setOpenEditForm}
+        onClose={handleEditFormClose}
         project={project}
       />
+
       <DeleteDialog open={openDelete} setOpen={setOpenDelete} />
     </>
   );

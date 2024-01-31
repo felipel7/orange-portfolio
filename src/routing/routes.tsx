@@ -3,6 +3,7 @@ import Layout from '../Layout';
 import DiscoveryPage from '../pages/DiscoveryPage';
 import HomePage from '../pages/Home';
 import LoginPage from '../pages/LoginPage';
+import ProjectSuccessPage from '../pages/ProjectSuccessPage';
 import RegisterPage from '../pages/RegisterPage';
 import ErrorPage from './ErrorPage';
 import PrivateRoutes from './PrivateRoute';
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <HomePage /> },
           { path: 'descobrir', element: <DiscoveryPage /> },
+          { path: 'sucesso/:title', element: <ProjectSuccessPage /> },
         ],
       },
     ],
