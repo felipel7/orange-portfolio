@@ -7,6 +7,10 @@ import SearchableProjects from '../components/SearchableProjects';
 export default function HomePage() {
   const [openFormModal, setOpenFormModal] = useState(false);
 
+  const handleFormModalClose = () => {
+    setOpenFormModal(false);
+  };
+
   return (
     <>
       <Container maxWidth="lg">
@@ -21,7 +25,7 @@ export default function HomePage() {
           />
         </Stack>
       </Container>
-      <ProjectModalForm open={openFormModal} setOpen={setOpenFormModal} />
+      <ProjectModalForm open={openFormModal} onClose={handleFormModalClose} />
     </>
   );
 }

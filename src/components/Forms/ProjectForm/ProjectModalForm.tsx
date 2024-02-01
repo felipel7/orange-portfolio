@@ -10,6 +10,7 @@ import {
 import axios from 'axios';
 import { ChangeEvent, useState } from 'react';
 import ModalWrapper from '../../Modal/ModalWrapper';
+import ProjectViewModal from '../../Modal/ProjectViewModal';
 import ProjectForm from './ProjectForm';
 
 interface ProjectModalFormProps {
@@ -26,6 +27,7 @@ export default function ProjectModalForm({
   project,
 }: ProjectModalFormProps) {
   const [imageUrl, setImageUrl] = useState(project?.imageProject);
+  const [openPreview, setOpenPreview] = useState(false);
 
   const onImageUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const imageFile = event.target.files![0];
@@ -41,6 +43,10 @@ export default function ProjectModalForm({
     );
 
     setImageUrl(res.data.secure_url);
+  };
+
+  const handlePreviewClose = () => {
+    setOpenPreview(false);
   };
 
   return (
@@ -135,7 +141,13 @@ export default function ProjectModalForm({
           gap={2}
           order={3}
         >
-          <Typography>Visualizar publicação</Typography>
+          <Typography
+            sx={{ cursor: 'pointer' }}
+            onClick={() => setOpenPreview(true)}
+          >
+            Visualizar publicação
+          </Typography>
+          <ProjectViewModal open={openPreview} onClose={handlePreviewClose} />
 
           <Stack direction="row" gap={2}>
             <Button
