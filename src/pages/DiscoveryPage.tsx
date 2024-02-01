@@ -1,4 +1,5 @@
 import { Container, Stack, Typography } from '@mui/material';
+import { Outlet } from 'react-router-dom';
 import SearchableProjects from '../components/SearchableProjects';
 
 export default function DiscoveryPage() {
@@ -20,6 +21,7 @@ export default function DiscoveryPage() {
 
         <SearchableProjects maxWidth={712} />
       </Stack>
+      <Outlet />
     </Container>
   );
 }
