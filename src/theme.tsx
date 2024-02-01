@@ -26,6 +26,19 @@ let theme = createTheme({
         },
       },
     },
+    MuiSnackbar: {
+      styleOverrides: {
+        anchorOriginTopRight: {
+          '@media (max-width: 599px)': {
+            top: '49px',
+          },
+          '@media (min-width: 600px)': {
+            top: '77px',
+            right: '184px',
+          },
+        },
+      },
+    },
   },
   typography: {
     fontFamily: 'Roboto',
