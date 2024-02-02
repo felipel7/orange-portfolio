@@ -9,9 +9,10 @@ import {
 
 interface ProjectFormProps {
   imageProject: string | undefined;
+  isEdit: boolean;
   project?: Project;
   onClose: () => void;
-  isEdit: boolean;
+  onImageError: () => void;
 }
 
 export default function ProjectForm({
@@ -19,6 +20,7 @@ export default function ProjectForm({
   project,
   onClose,
   isEdit,
+  onImageError,
 }: ProjectFormProps) {
   const navigate = useNavigate();
   const {
@@ -32,11 +34,10 @@ export default function ProjectForm({
   });
 
   const onSubmit = (data: ProjectFormData) => {
-    // if (!imageProject) {
-    //   console.log('Sem foto');
-    //   // TODO: mostrar toast erro
-    //   return;
-    // }
+    if (!imageProject) {
+      onImageError();
+      return;
+    }
 
     data.imageProject = imageProject;
     // TODO: enviar dados para o backend
