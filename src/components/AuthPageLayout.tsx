@@ -1,6 +1,5 @@
-import { Grid, Stack } from '@mui/material';
+import { Box, Grid, Stack } from '@mui/material';
 import { PropsWithChildren } from 'react';
-import ImageWrapper from '../components/ImageWrapper';
 
 interface AuthPageLayoutProps extends PropsWithChildren {
   imageURL: string;
@@ -28,5 +27,16 @@ export default function AuthPageLayout({
         </Stack>
       </Grid>
     </Grid>
+  );
+}
+
+function ImageWrapper({ imageURL }: { imageURL: string }) {
+  return (
+    <Box
+      alt="Plano de fundo"
+      component="img"
+      display={{ xs: 'none', lg: 'block' }}
+      src={imageURL}
+    />
   );
 }
