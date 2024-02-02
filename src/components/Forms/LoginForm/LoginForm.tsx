@@ -6,64 +6,74 @@ import {
   Stack,
   TextField,
 } from '@mui/material';
-import { useLoginForm } from './useLoginForm';
+import AppSnackbar from '../../AppSnackbar';
+import useLoginForm from './useLoginForm';
 
 export function LoginForm() {
-  const { formMethods, showPassword, setShowPassword, onSubmit } =
-    useLoginForm();
   const {
+    showPassword,
     handleSubmit,
+    errors,
+    handleClickShowPassword,
+    handleSnackbarClose,
     register,
-    formState: { errors },
-  } = formMethods;
-
-  const handleClickShowPassword = () => setShowPassword(!showPassword);
+    snackbar,
+  } = useLoginForm();
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Stack spacing={2}>
-        <TextField
-          required
-          label="Email address"
-          autoComplete="email"
-          variant="outlined"
-          {...register('email')}
-          error={Boolean(errors.email)}
-          helperText={errors.email?.message}
-        />
-        <TextField
-          autoComplete="current-password"
-          fullWidth
-          label="Password"
-          required
-          type={showPassword ? 'text' : 'password'}
-          {...register('password')}
-          error={Boolean(errors.password)}
-          helperText={errors.password?.message}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
+    <>
+      <form onSubmit={handleSubmit}>
+        <Stack spacing={2}>
+          <TextField
+            required
+            label="Email address"
+            autoComplete="email"
+            variant="outlined"
+            {...register('email')}
+            error={Boolean(errors.email)}
+            helperText={errors.email?.message}
+          />
+          <TextField
+            autoComplete="current-password"
+            fullWidth
+            label="Password"
+            required
+            type={showPassword ? 'text' : 'password'}
+            {...register('password')}
+            error={Boolean(errors.password)}
+            helperText={errors.password?.message}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
 
-        <Button
-          type="submit"
-          color="secondary"
-          size="large"
-          variant="contained"
-        >
-          Entrar
-        </Button>
-      </Stack>
-    </form>
+          <Button
+            type="submit"
+            color="secondary"
+            size="large"
+            variant="contained"
+          >
+            Entrar
+          </Button>
+        </Stack>
+      </form>
+
+      <AppSnackbar
+        type={snackbar.type}
+        label={snackbar.label}
+        open={snackbar.open}
+        onClose={handleSnackbarClose}
+      />
+    </>
   );
 }

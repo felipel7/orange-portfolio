@@ -16,3 +16,10 @@ type User = {
   email: string;
   profileImageAddress: string;
 };
+
+type SnackbarType = {
+  open: boolean;
+  type: 'success' | 'error';
+  label: string;
+  onClose?: (event: Event | SyntheticEvent<any, Event>) => void;
+};
