@@ -1,4 +1,4 @@
-import { PaletteColor, createTheme } from '@mui/material/styles';
+import { PaletteColor, createTheme, darken } from '@mui/material/styles';
 
 let theme = createTheme({
   palette: {
@@ -103,10 +103,12 @@ theme = createTheme(theme, {
         },
         containedPrimary: {
           background: theme.palette.grey[300],
-          color: theme.palette.grey[600],
           boxShadow: 'none',
+          color: theme.palette.grey[600],
           '&:hover': {
-            background: theme.palette.grey[400],
+            background: darken(theme.palette.grey[300], 0.05),
+            boxShadow: 'none',
+            color: darken(theme.palette.grey[600], 0.1),
           },
         },
         containedSecondary: {

@@ -20,8 +20,9 @@ import {
   useTheme,
 } from '@mui/material';
 import React, { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.svg';
+import useAuth from '../hooks/useAuth';
 
 const pages = [
   { id: 1, label: 'Meus projetos', url: '/' },
@@ -31,6 +32,9 @@ const pages = [
 export default function Navbar() {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -47,6 +51,12 @@ export default function Navbar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleLogout = () => {
+    logout();
+    handleCloseUserMenu();
+    navigate(0);
   };
 
   return (
@@ -92,10 +102,8 @@ export default function Navbar() {
                 </MenuItem>
               ))}
               <Divider />
-              <MenuItem color="primary">
-                <RouterLink to="/" style={{ textDecoration: 'none' }}>
-                  <Typography color="primary">Configurações</Typography>
-                </RouterLink>
+              <MenuItem onClick={handleLogout}>
+                <Typography color="primary">Desconectar</Typography>
               </MenuItem>
             </Menu>
           </Box>
@@ -143,7 +151,7 @@ export default function Navbar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <MenuItem onClick={handleCloseUserMenu}>
+              <MenuItem onClick={handleLogout}>
                 <Typography textAlign="center">Desconectar</Typography>
               </MenuItem>
             </Menu>

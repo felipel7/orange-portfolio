@@ -37,6 +37,11 @@ export function LoginFormContainer() {
           component={RouterLink}
           to="/cadastro"
           underline="none"
+          sx={{
+            '&:hover': {
+              color: 'primary.main',
+            },
+          }}
         >
           Cadastre-se
         </Link>

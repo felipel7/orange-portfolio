@@ -3,11 +3,11 @@ import { z } from 'zod';
 export type RegisterFormData = z.infer<typeof userSchema>;
 
 export const userSchema = z.object({
-  firstName: z
+  firstname: z
     .string()
     .min(3, 'Deve ter no mínimo 3 letras')
     .max(255, 'Deve ter no máximo 255 letras'),
-  lastName: z
+  lastname: z
     .string()
     .min(3, 'Deve ter no mínimo 3 letras')
     .max(255, 'Deve ter no máximo 255 letras'),

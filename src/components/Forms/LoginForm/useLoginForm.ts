@@ -33,6 +33,7 @@ export default function useLoginForm() {
   };
 
   const onSubmit = async (data: LoginFormData) => {
+    setItem('token', null);
     try {
       const response = await api.post<{ token: string }>('user/login', data);
 
@@ -52,8 +53,7 @@ export default function useLoginForm() {
       reset();
       setSnackbar({
         open: true,
-        label:
-          'Erro no servidor. Por favor, atualize a página e tente novamente',
+        label: 'Erro no servidor. Tente novamente mais tarde.',
         type: 'error',
       });
       console.error(error);
