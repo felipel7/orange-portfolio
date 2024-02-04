@@ -1,3 +1,15 @@
-export const useAuth = () => ({ user: { id: 1, name: 'Felipe' } });
+import useLocalStorage from './useLocalStorage';
 
-// export const useAuth = () => ({ user: null });
+export default function useAuth() {
+  const { getItem, setItem } = useLocalStorage();
+
+  const user = getItem('token');
+
+  const isAuthenticated = !!user;
+
+  const logout = () => {
+    setItem('token', null);
+  };
+
+  return { isAuthenticated, logout };
+}

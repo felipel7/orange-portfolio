@@ -1,15 +1,19 @@
 import { PhotoLibrary } from '@mui/icons-material';
 import {
+  Alert,
   Box,
   Button,
   ButtonBase,
+  CircularProgress,
   Grid,
   Stack,
   Typography,
 } from '@mui/material';
-import axios from 'axios';
-import { ChangeEvent, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useImageUpload } from '../../../hooks/useImageUpload';
+import usePreviewProjectStore from '../../../store/previewProjectStore';
 import ModalWrapper from '../../Modal/ModalWrapper';
+import ProjectViewModal from '../../Modal/ProjectViewModal';
 import ProjectForm from './ProjectForm';
 
 interface ProjectModalFormProps {
@@ -25,22 +29,24 @@ export default function ProjectModalForm({
   isEdit = false,
   project,
 }: ProjectModalFormProps) {
-  const [imageUrl, setImageUrl] = useState(project?.imageProject);
+  const [openPreview, setOpenPreview] = useState(false);
+  const { setPreviewProject } = usePreviewProjectStore();
 
-  const onImageUpload = async (event: ChangeEvent<HTMLInputElement>) => {
-    const imageFile = event.target.files![0];
-    const formData = new FormData();
-    formData.append('file', imageFile);
-    formData.append('upload_preset', 'orange');
+  const { imageUrl, imageError, onImageUpload, setImageError, isLoading } =
+    useImageUpload(project);
 
-    const res = await axios.post(
-      `https://api.cloudinary.com/v1_1/${
-        import.meta.env.VITE_PUBLIC_CLOUDINARY_NAME
-      }/image/upload`,
-      formData
-    );
+  useEffect(() => {
+    return () => {
+      setPreviewProject({} as PreviewProject);
+    };
+  }, []);
 
-    setImageUrl(res.data.secure_url);
+  const handlePreviewClose = () => {
+    setOpenPreview(false);
+  };
+
+  const handlePreviewOpen = () => {
+    setOpenPreview(true);
   };
 
   return (
@@ -68,54 +74,69 @@ export default function ProjectModalForm({
             <Typography>
               Selecione o conteúdo que você deseja fazer upload
             </Typography>
-            <ButtonBase sx={{ height: '100%' }} component="label">
-              {imageUrl ? (
-                <Box
-                  component="div"
-                  sx={{
-                    objectFit: 'cover',
-                    borderRadius: 1,
-                    overflow: 'hidden',
-                    width: '100%',
-                    height: '100%',
-                    maxWidth: 389,
-                    maxHeight: 336,
-                    minHeight: 304,
-                    background: `url(${
-                      project?.imageProject || imageUrl
-                    }) no-repeat`,
-                    backgroundSize: 'cover',
-                  }}
-                />
-              ) : (
-                <Stack
-                  alignItems="center"
-                  bgcolor="primary.100"
-                  borderRadius={1}
-                  color="neutral.120"
-                  gap={1}
-                  height="100%"
-                  justifyContent="center"
-                  minHeight={258}
-                  px={{ xs: 4, sm: 8 }}
-                >
-                  <PhotoLibrary
-                    sx={{ fill: '#323232', height: 46, width: 46 }}
+            {isLoading ? (
+              <Loading />
+            ) : (
+              <ButtonBase sx={{ height: '100%' }} component="label">
+                {imageUrl ? (
+                  <Box
+                    component="div"
+                    sx={{
+                      objectFit: 'cover',
+                      borderRadius: 1,
+                      overflow: 'hidden',
+                      width: '100%',
+                      height: '100%',
+                      maxWidth: 389,
+                      maxHeight: 336,
+                      minHeight: 304,
+                      background: `url(${
+                        project?.imageProject || imageUrl
+                      }) no-repeat`,
+                      backgroundSize: 'cover',
+                    }}
                   />
+                ) : (
+                  <Stack
+                    alignItems="center"
+                    bgcolor="primary.100"
+                    borderRadius={1}
+                    color="neutral.120"
+                    gap={1}
+                    height="100%"
+                    justifyContent="center"
+                    minHeight={258}
+                    px={{ xs: 4, sm: 8 }}
+                  >
+                    <PhotoLibrary
+                      sx={{ fill: '#323232', height: 46, width: 46 }}
+                    />
 
-                  <Typography fontSize={14}>
-                    Compartilhe seu talento com milhares de pessoas
-                  </Typography>
-                </Stack>
-              )}
+                    <Typography fontSize={14}>
+                      Compartilhe seu talento com milhares de pessoas
+                    </Typography>
+                  </Stack>
+                )}
 
-              <input
-                type="file"
-                accept="image/png, image/jpeg, image/jpg"
-                hidden
-                onChange={onImageUpload}
-              />
-            </ButtonBase>
+                <input
+                  type="file"
+                  accept=".jpg, .jpeg, .png"
+                  size={1000000}
+                  hidden
+                  onChange={onImageUpload}
+                />
+              </ButtonBase>
+            )}
+
+            {imageError && !imageUrl && (
+              <Alert
+                severity="error"
+                sx={{ cursor: 'default' }}
+                component="span"
+              >
+                Não foi possível processar a imagem. Tente novamente
+              </Alert>
+            )}
           </Stack>
         </Grid>
 
@@ -125,6 +146,7 @@ export default function ProjectModalForm({
             project={project}
             onClose={onClose}
             isEdit={isEdit}
+            onImageError={() => setImageError(true)}
           />
         </Grid>
 
@@ -135,7 +157,20 @@ export default function ProjectModalForm({
           gap={2}
           order={3}
         >
-          <Typography>Visualizar publicação</Typography>
+          <Typography
+            sx={{
+              cursor: 'pointer',
+              width: 'fit-content',
+              '&:hover': {
+                color: 'primary.main',
+              },
+            }}
+            onClick={handlePreviewOpen}
+          >
+            Visualizar publicação
+          </Typography>
+
+          <ProjectViewModal open={openPreview} onClose={handlePreviewClose} />
 
           <Stack direction="row" gap={2}>
             <Button
@@ -159,5 +194,18 @@ export default function ProjectModalForm({
         </Box>
       </Grid>
     </ModalWrapper>
+  );
+}
+
+function Loading() {
+  return (
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      sx={{ width: '100%', height: '100%' }}
+    >
+      <CircularProgress color="primary" />
+    </Box>
   );
 }

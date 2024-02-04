@@ -1,10 +1,10 @@
 import AuthPageLayout from '../components/AuthPageLayout';
-import RegistrationForm from '../components/Forms/RegisterForm';
+import RegisterFormContainer from '../components/Forms/RegisterForm/RegisterFormContainer';
 
 export default function RegisterPage() {
   return (
     <AuthPageLayout imageURL="/images/img_cadastro.png">
-      <RegistrationForm />
+      <RegisterFormContainer />
     </AuthPageLayout>
   );
 }

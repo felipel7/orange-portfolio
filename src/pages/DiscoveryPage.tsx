@@ -1,7 +1,19 @@
 import { Container, Stack, Typography } from '@mui/material';
+import { useQuery } from '@tanstack/react-query';
+import { Outlet } from 'react-router-dom';
 import SearchableProjects from '../components/SearchableProjects';
+import api from '../services/apiClient';
 
 export default function DiscoveryPage() {
+  const fetchProjects = () => api.get('project/all').then(res => res.data);
+
+  const { data: projects, error } = useQuery<Project[], Error>({
+    queryKey: ['allProjects'],
+    queryFn: fetchProjects,
+  });
+
+  if (error) return <p>{error.message}</p>;
+
   return (
     <Container maxWidth="lg" component="section">
       <Stack px={1}>
@@ -18,8 +30,9 @@ export default function DiscoveryPage() {
           transformando experiências em conexões inesquecíveis
         </Typography>
 
-        <SearchableProjects maxWidth={712} />
+        <SearchableProjects maxWidth={712} projects={projects || []} />
       </Stack>
+      <Outlet />
     </Container>
   );
 }

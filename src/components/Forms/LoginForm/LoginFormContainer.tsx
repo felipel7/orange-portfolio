@@ -1,6 +1,5 @@
 import { Link, Stack, Typography } from '@mui/material';
 import { GoogleLogin } from '@react-oauth/google';
-import { jwtDecode } from 'jwt-decode';
 import { Link as RouterLink } from 'react-router-dom';
 import { LoginForm } from './LoginForm';
 
@@ -13,8 +12,8 @@ export function LoginFormContainer() {
       <GoogleLogin
         onSuccess={credentialResponse => {
           console.log('credentialResponse', credentialResponse);
-          const decoded = jwtDecode(credentialResponse.credential!);
-          console.log('jwt-decoded', decoded);
+          const token = credentialResponse.credential!;
+          console.log(token);
           // TODO: enviar dados para o backend
         }}
         onError={() => {
@@ -30,12 +29,19 @@ export function LoginFormContainer() {
         >
           Faça login com email
         </Typography>
+
         <LoginForm />
+
         <Link
           color="neutral.main"
           component={RouterLink}
           to="/cadastro"
           underline="none"
+          sx={{
+            '&:hover': {
+              color: 'primary.main',
+            },
+          }}
         >
           Cadastre-se
         </Link>

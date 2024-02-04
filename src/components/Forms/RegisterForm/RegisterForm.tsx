@@ -1,5 +1,6 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import {
+  Box,
   Button,
   IconButton,
   InputAdornment,
@@ -7,32 +8,55 @@ import {
   TextField,
 } from '@mui/material';
 import AppSnackbar from '../../AppSnackbar';
-import useLoginForm from './useLoginForm';
+import useRegisterForm from './useRegisterForm';
 
-export function LoginForm() {
+export default function RegisterForm() {
   const {
-    showPassword,
     handleSubmit,
-    errors,
-    handleClickShowPassword,
-    handleSnackbarClose,
     register,
+    errors,
+    showPassword,
+    handleClickShowPassword,
     snackbar,
-  } = useLoginForm();
+    handleSnackbarClose,
+  } = useRegisterForm();
 
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <Stack spacing={2}>
+        <Stack gap={2}>
+          <Box display="flex" gap={2}>
+            <TextField
+              autoComplete="given-name"
+              fullWidth
+              label="Nome"
+              required
+              {...register('firstName')}
+              error={Boolean(errors.firstName)}
+              helperText={errors.firstName?.message}
+            />
+
+            <TextField
+              autoComplete="family-name"
+              fullWidth
+              label="Sobrenome"
+              required
+              {...register('lastName')}
+              error={Boolean(errors.lastName)}
+              helperText={errors.lastName?.message}
+            />
+          </Box>
+
           <TextField
-            required
-            label="Email address"
             autoComplete="email"
-            variant="outlined"
+            required
+            fullWidth
+            label="Email"
             {...register('email')}
             error={Boolean(errors.email)}
             helperText={errors.email?.message}
           />
+
           <TextField
             autoComplete="current-password"
             fullWidth
@@ -61,9 +85,10 @@ export function LoginForm() {
             type="submit"
             color="secondary"
             size="large"
+            fullWidth
             variant="contained"
           >
-            Entrar
+            Cadastrar
           </Button>
         </Stack>
       </form>
