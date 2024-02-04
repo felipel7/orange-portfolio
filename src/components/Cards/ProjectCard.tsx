@@ -1,5 +1,8 @@
 import { Avatar, Box, Chip, Grid, Stack, Typography } from '@mui/material';
-import { formatDate } from '../../utils/formatDate';
+import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { formatDate } from '../../utils/dateUtils';
+import { getUserFullName } from '../../utils/userUtils';
 import ProjectOptionsMenu from '../ProjectOptionsMenu';
 
 interface ProjectCardProps {
@@ -8,6 +11,16 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project, showTags }: ProjectCardProps) {
+  const navigate = useNavigate();
+  const fullName = useMemo(
+    () => getUserFullName(project.user!),
+    [project.user]
+  );
+
+  const handleImageClick = () => {
+    navigate('/descobrir/' + project.id);
+  };
+
   return (
     <Grid item xs={12} sm={4} md={4} position="relative">
       <Box
@@ -15,6 +28,7 @@ export default function ProjectCard({ project, showTags }: ProjectCardProps) {
         src={project.imageProject}
         alt={project.title}
         borderRadius={1}
+        onClick={handleImageClick}
         sx={{
           objectFit: 'cover',
           height: '258px',
@@ -27,12 +41,10 @@ export default function ProjectCard({ project, showTags }: ProjectCardProps) {
         alignItems="center"
         mt={1}
       >
-        <Box display="flex" gap={1}>
+        <Box display="flex" gap={1} onClick={() => console.log(1)}>
           <Avatar sx={{ width: 24, height: 24 }} />
           <Typography color="neutral.110">
-            {`${project.user.firstname} ${project.user.lastname} • ${formatDate(
-              project.createdAt
-            )}`}
+            {`${fullName} • ${formatDate(project.createdAt)}`}
           </Typography>
         </Box>
 

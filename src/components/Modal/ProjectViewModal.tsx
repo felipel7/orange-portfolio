@@ -9,23 +9,38 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import { useEffect, useState } from 'react';
 import usePreviewProjectStore from '../../store/previewProjectStore';
-import { formatDate, getCurrentMonthYear } from '../../utils/formatDate';
+import { formatDate, getCurrentMonthYear } from '../../utils/dateUtils';
+import { getUserFullName } from '../../utils/userUtils';
 
 interface ProjectViewModalProps {
   open: boolean;
   onClose: () => void;
+  projectForPreview?: Project;
 }
 
 export default function ProjectViewModal({
   open,
   onClose,
+  projectForPreview,
 }: ProjectViewModalProps) {
+  const [project, setProject] = useState<Project | undefined>(
+    projectForPreview
+  );
   const { previewProject } = usePreviewProjectStore();
 
-  previewProject.createdAt = previewProject.createdAt
-    ? previewProject.createdAt
-    : getCurrentMonthYear();
+  useEffect(() => {
+    if (!projectForPreview) {
+      previewProject.createdAt = previewProject.createdAt
+        ? previewProject.createdAt
+        : getCurrentMonthYear();
+
+      setProject(previewProject);
+    }
+  }, [previewProject, projectForPreview]);
+
+  if (!project) return;
 
   return (
     <Modal
@@ -61,26 +76,20 @@ export default function ProjectViewModal({
             sx={{ width: '100%' }}
           >
             <Box display={{ xs: 'none', md: 'block' }} flex={1}>
-              <UserDetails
-                date={previewProject.createdAt}
-                user={previewProject.user}
-              />
+              <UserDetails date={project.createdAt} user={project.user} />
             </Box>
             <Box flex={1}>
               <Typography textAlign="center" variant="h4" color="neutral.120">
-                {previewProject.title}
+                {project.title}
               </Typography>
             </Box>
 
-            <Tags
-              tags={previewProject.tags}
-              display={{ xs: 'none', md: 'flex' }}
-            />
+            <Tags tags={project.tags} display={{ xs: 'none', md: 'flex' }} />
           </Box>
 
           <Box
             component="img"
-            src={previewProject.imageProject}
+            src={project.imageProject}
             sx={{
               width: '100%',
               maxHeight: { xs: 258, sm: 585 },
@@ -93,32 +102,24 @@ export default function ProjectViewModal({
             alignSelf="center"
           />
           <Box display={{ xs: 'flex', md: 'none' }}>
-            <UserDetails
-              date={previewProject.createdAt}
-              user={previewProject.user}
-            />
+            <UserDetails date={project.createdAt} user={project.user} />
 
-            <Tags
-              tags={previewProject.tags}
-              display={{ xs: 'flex', md: 'none' }}
-            />
+            <Tags tags={project.tags} display={{ xs: 'flex', md: 'none' }} />
           </Box>
 
-          <Typography mt={{ xs: 2, md: 7 }}>
-            {previewProject.description}
-          </Typography>
+          <Typography mt={{ xs: 2, md: 7 }}>{project.description}</Typography>
 
           <Box my={4}>
             <Typography>Download</Typography>
             <Link
               color="#608AE1"
-              href={previewProject.link}
+              href={project.link}
               rel="noopener"
               target="_blank"
               underline="none"
               sx={{ cursor: 'pointer' }}
             >
-              {previewProject.link}
+              {project.link}
             </Link>
           </Box>
         </Stack>
@@ -128,11 +129,14 @@ export default function ProjectViewModal({
 }
 
 interface UserDetailsProps {
-  user?: User;
+  user: User;
   date: string;
 }
 
 function UserDetails({ user, date }: UserDetailsProps) {
+  const fullname = getUserFullName(user);
+  const formattedDate = formatDate(date);
+
   return (
     <Box display="flex" alignItems="center" gap={1}>
       <Avatar variant="circular" sx={{ width: 40, height: 40 }} />
@@ -145,24 +149,28 @@ function UserDetails({ user, date }: UserDetailsProps) {
           fontWeight={{ xs: 400, md: 500 }}
           color={{ xs: 'neutral.110', md: 'neutral.120' }}
         >
-          {`${user?.firstname} ${user?.lastname}`}
+          {fullname}
         </Typography>
 
-        <Typography color="neutral.110">{formatDate(date)}</Typography>
+        <Typography color="neutral.110">{formattedDate}</Typography>
       </Stack>
     </Box>
   );
 }
 
 interface TagsProps {
-  tags: string[];
+  tags: string | string[];
   [x: string]: unknown;
 }
 
 function Tags({ tags, ...rest }: TagsProps) {
+  if (!tags) return;
+
+  const tagsArray = Array.isArray(tags) ? tags : tags.split(',');
+
   return (
     <Box justifyContent="flex-end" flex={1} gap={1} {...rest}>
-      {tags?.map(tag => (
+      {tagsArray?.map(tag => (
         <Chip key={tag} label={tag} sx={{ color: 'primary' }} />
       ))}
     </Box>
