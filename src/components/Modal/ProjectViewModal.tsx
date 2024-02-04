@@ -9,17 +9,24 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import usePreviewProjectStore from '../../store/previewProjectStore';
+import { formatDate, getCurrentMonthYear } from '../../utils/formatDate';
 
 interface ProjectViewModalProps {
   open: boolean;
   onClose: () => void;
-  project?: Project;
 }
 
 export default function ProjectViewModal({
   open,
   onClose,
 }: ProjectViewModalProps) {
+  const { previewProject } = usePreviewProjectStore();
+
+  previewProject.createdAt = previewProject.createdAt
+    ? previewProject.createdAt
+    : getCurrentMonthYear();
+
   return (
     <Modal
       open={open}
@@ -45,7 +52,7 @@ export default function ProjectViewModal({
             <Close sx={{ fill: '#323232' }} />
           </IconButton>
         </Box>
-        <Stack alignSelf="center" sx={{ maxWidth: 838 }}>
+        <Stack alignSelf="center" sx={{ maxWidth: 838, width: '100%' }}>
           <Box
             display="flex"
             justifyContent="space-between"
@@ -54,20 +61,26 @@ export default function ProjectViewModal({
             sx={{ width: '100%' }}
           >
             <Box display={{ xs: 'none', md: 'block' }} flex={1}>
-              <UserDetails />
+              <UserDetails
+                date={previewProject.createdAt}
+                user={previewProject.user}
+              />
             </Box>
             <Box flex={1}>
               <Typography textAlign="center" variant="h4" color="neutral.120">
-                Ecommerce One Page
+                {previewProject.title}
               </Typography>
             </Box>
 
-            <Tags display={{ xs: 'none', md: 'flex' }} />
+            <Tags
+              tags={previewProject.tags}
+              display={{ xs: 'none', md: 'flex' }}
+            />
           </Box>
 
           <Box
             component="img"
-            src={'https://picsum.photos/200/300'}
+            src={previewProject.imageProject}
             sx={{
               width: '100%',
               maxHeight: { xs: 258, sm: 585 },
@@ -80,28 +93,32 @@ export default function ProjectViewModal({
             alignSelf="center"
           />
           <Box display={{ xs: 'flex', md: 'none' }}>
-            <UserDetails />
+            <UserDetails
+              date={previewProject.createdAt}
+              user={previewProject.user}
+            />
 
-            <Tags display={{ xs: 'flex', md: 'none' }} />
+            <Tags
+              tags={previewProject.tags}
+              display={{ xs: 'flex', md: 'none' }}
+            />
           </Box>
 
           <Typography mt={{ xs: 2, md: 7 }}>
-            Temos o prazer de compartilhar com vocês uma variação do nosso
-            primeiro recurso gratuito. É um modelo de IA. Tentamos redesenhar
-            uma versão mais minimalista do nosso primeiro projeto.
+            {previewProject.description}
           </Typography>
 
           <Box my={4}>
             <Typography>Download</Typography>
             <Link
               color="#608AE1"
-              href="https://gumroad.com/products/wxCSL"
+              href={previewProject.link}
               rel="noopener"
               target="_blank"
               underline="none"
               sx={{ cursor: 'pointer' }}
             >
-              https://gumroad.com/products/wxCSL
+              {previewProject.link}
             </Link>
           </Box>
         </Stack>
@@ -110,7 +127,12 @@ export default function ProjectViewModal({
   );
 }
 
-function UserDetails() {
+interface UserDetailsProps {
+  user?: User;
+  date: string;
+}
+
+function UserDetails({ user, date }: UserDetailsProps) {
   return (
     <Box display="flex" alignItems="center" gap={1}>
       <Avatar variant="circular" sx={{ width: 40, height: 40 }} />
@@ -123,20 +145,26 @@ function UserDetails() {
           fontWeight={{ xs: 400, md: 500 }}
           color={{ xs: 'neutral.110', md: 'neutral.120' }}
         >
-          Camila Soares
+          {`${user?.firstname} ${user?.lastname}`}
         </Typography>
 
-        <Typography color="neutral.110">12/12</Typography>
+        <Typography color="neutral.110">{formatDate(date)}</Typography>
       </Stack>
     </Box>
   );
 }
 
-function Tags({ ...rest }) {
+interface TagsProps {
+  tags: string[];
+  [x: string]: unknown;
+}
+
+function Tags({ tags, ...rest }: TagsProps) {
   return (
     <Box justifyContent="flex-end" flex={1} gap={1} {...rest}>
-      <Chip label="Web" sx={{ color: 'primary' }} />
-      <Chip label="UX" sx={{ color: 'primary' }} />
+      {tags?.map(tag => (
+        <Chip key={tag} label={tag} sx={{ color: 'primary' }} />
+      ))}
     </Box>
   );
 }

@@ -9,8 +9,9 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useImageUpload } from '../../../hooks/useImageUpload';
+import usePreviewProjectStore from '../../../store/previewProjectStore';
 import ModalWrapper from '../../Modal/ModalWrapper';
 import ProjectViewModal from '../../Modal/ProjectViewModal';
 import ProjectForm from './ProjectForm';
@@ -29,11 +30,23 @@ export default function ProjectModalForm({
   project,
 }: ProjectModalFormProps) {
   const [openPreview, setOpenPreview] = useState(false);
+  const { setPreviewProject } = usePreviewProjectStore();
+
   const { imageUrl, imageError, onImageUpload, setImageError, isLoading } =
     useImageUpload(project);
 
+  useEffect(() => {
+    return () => {
+      setPreviewProject({} as PreviewProject);
+    };
+  }, []);
+
   const handlePreviewClose = () => {
     setOpenPreview(false);
+  };
+
+  const handlePreviewOpen = () => {
+    setOpenPreview(true);
   };
 
   return (
@@ -115,9 +128,13 @@ export default function ProjectModalForm({
               </ButtonBase>
             )}
 
-            {imageError && (
-              <Alert severity="error">
-                Não foi possível inserir a imagem. Por favor, tente novamente.
+            {imageError && !imageUrl && (
+              <Alert
+                severity="error"
+                sx={{ cursor: 'default' }}
+                component="span"
+              >
+                Não foi possível processar a imagem. Tente novamente
               </Alert>
             )}
           </Stack>
@@ -148,7 +165,7 @@ export default function ProjectModalForm({
                 color: 'primary.main',
               },
             }}
-            onClick={() => setOpenPreview(true)}
+            onClick={handlePreviewOpen}
           >
             Visualizar publicação
           </Typography>

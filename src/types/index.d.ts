@@ -9,6 +9,10 @@ type Project = {
   user: User;
 };
 
+type PreviewProject = Project & {
+  tags: string[];
+};
+
 type User = {
   id: number;
   firstname: string;
@@ -21,5 +25,6 @@ type SnackbarType = {
   open: boolean;
   type: 'success' | 'error';
   label: string;
+  // eslint-disable-next-line
   onClose?: (event: Event | SyntheticEvent<any, Event>) => void;
 };
