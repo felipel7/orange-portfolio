@@ -1,6 +1,6 @@
 import { PhotoLibrary } from '@mui/icons-material';
 import { Grid, Stack, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ProjectCard from './Cards/ProjectCard';
 import SearchBar from './SearchBar';
 
@@ -9,6 +9,7 @@ interface SearchableProjectsProps {
   searchBarLabel?: string;
   maxWidth?: number;
   showTags?: boolean;
+  projects: Project[];
 }
 
 export default function SearchableProjects({
@@ -16,18 +17,13 @@ export default function SearchableProjects({
   searchBarLabel,
   maxWidth,
   showTags = false,
+  projects,
 }: SearchableProjectsProps) {
-  const [projects, setProjects] = useState<Project[]>(mockExample);
   const [query, setQuery] = useState('');
 
-  const filteredProjects = projects.filter(project => {
+  const filteredProjects = projects?.filter(project => {
     return project.tags.toLowerCase().includes(query.toLowerCase());
   });
-
-  useEffect(() => {
-    // TODO: fetch dos projetos do usuario
-    setProjects(mockExample);
-  }, []);
 
   const handleSearch = (newQuery: string) => {
     setQuery(newQuery);
@@ -95,23 +91,3 @@ export function ProjectList({ projects, showTags }: ProjectListProps) {
     </>
   );
 }
-
-// TODO: delete mockExample
-const mockExample = [
-  {
-    id: 1,
-    title: 'Title project',
-    description: 'Description project',
-    link: 'https://github.com',
-    imageProject: 'https://picsum.photos/200/300',
-    tags: 'UX, frontend',
-    createdAt: '2024-01-30',
-    user: {
-      id: 2,
-      firstname: 'Camila',
-      lastname: 'Soares',
-      email: 'email@email.com',
-      profileImageAddress: 'https://picsum.photos/200/300',
-    },
-  },
-];
