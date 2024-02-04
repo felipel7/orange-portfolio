@@ -25,6 +25,7 @@ export default function ProjectForm({
       onClose,
       isEdit,
       onImageError,
+      projectId: project?.id,
     }
   );
   const { setPreviewProject } = usePreviewProjectStore();

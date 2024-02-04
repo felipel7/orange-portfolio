@@ -16,7 +16,7 @@ import DeleteDialog from './Modal/DeleteDialog';
 export default function ProjectOptionsMenu({ project }: { project: Project }) {
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
-  const [openEditForm, setOpenEditForm] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
 
   const anchorRef = useRef<HTMLDivElement>(null);
@@ -27,19 +27,17 @@ export default function ProjectOptionsMenu({ project }: { project: Project }) {
   };
 
   const handleUpdate = () => {
-    setOpenEditForm(true);
+    setOpenEdit(true);
     setOpen(false);
   };
 
-  const handleEditFormClose = () => {
-    setOpenEditForm(false);
+  const handleEditClose = () => {
+    setOpenEdit(false);
   };
 
   const handleDelete = () => {
     setOpen(false);
     setOpenDelete(true);
-    // TODO: enviar um POST para excluir o projeto
-    // TODO: dar um feedback visual pro usuario snackbar/toast
   };
 
   return (
@@ -109,12 +107,16 @@ export default function ProjectOptionsMenu({ project }: { project: Project }) {
 
       <ProjectModalForm
         isEdit
-        open={openEditForm}
-        onClose={handleEditFormClose}
+        open={openEdit}
+        onClose={handleEditClose}
         project={project}
       />
 
-      <DeleteDialog open={openDelete} setOpen={setOpenDelete} />
+      <DeleteDialog
+        open={openDelete}
+        setOpen={setOpenDelete}
+        projectId={project.id}
+      />
     </>
   );
 }
