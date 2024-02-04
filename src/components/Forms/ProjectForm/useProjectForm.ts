@@ -55,7 +55,7 @@ export default function useProjectForm({
           navigate('/sucesso/' + onSuccessMsg);
         }
       } catch (e) {
-        console.log(e);
+        console.error(e);
       }
     } else {
       try {
