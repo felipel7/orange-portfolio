@@ -31,9 +31,9 @@ export default function RegisterForm() {
               fullWidth
               label="Nome"
               required
-              {...register('firstName')}
-              error={Boolean(errors.firstName)}
-              helperText={errors.firstName?.message}
+              {...register('firstname')}
+              error={Boolean(errors.firstname)}
+              helperText={errors.firstname?.message}
             />
 
             <TextField
@@ -41,9 +41,9 @@ export default function RegisterForm() {
               fullWidth
               label="Sobrenome"
               required
-              {...register('lastName')}
-              error={Boolean(errors.lastName)}
-              helperText={errors.lastName?.message}
+              {...register('lastname')}
+              error={Boolean(errors.lastname)}
+              helperText={errors.lastname?.message}
             />
           </Box>
 
