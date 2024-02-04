@@ -9,15 +9,18 @@ import {
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
+import api from '../../services/apiClient';
 
 interface DeleteDialogProps {
   open: boolean;
   setOpen: (state: boolean) => void;
+  projectId: number;
 }
 
 export default function DeleteDialog({
   open = false,
   setOpen,
+  projectId,
 }: DeleteDialogProps) {
   const [confirmOpen, setConfirmOpen] = useState(false);
 
@@ -25,9 +28,15 @@ export default function DeleteDialog({
     setOpen(false);
   };
 
-  const handleConfirm = () => {
-    setOpen(false);
-    setConfirmOpen(true);
+  const handleConfirm = async () => {
+    try {
+      await api.delete('project/' + projectId);
+      setOpen(false);
+      setConfirmOpen(true);
+    } catch (e) {
+      setOpen(false);
+      console.error(e);
+    }
   };
 
   const handleConfirmClose = () => {
