@@ -42,11 +42,13 @@ export default function useLoginForm() {
 
   const onSubmit = async (data: LoginFormData) => {
     setItem('token', null);
+    setItem('user', null);
     try {
       const response = await api.post<LoginResponse>('user/login', data);
 
       if (response.data.success) {
         setItem('token', response.data.token);
+        setItem('user', response.data.user);
         setUser(response.data.user);
         return navigate('/');
       } else {

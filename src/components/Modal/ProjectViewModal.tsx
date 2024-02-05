@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import usePreviewProjectStore from '../../store/previewProjectStore';
+import userStore from '../../store/userStore';
 import { formatDate, getCurrentMonthYear } from '../../utils/dateUtils';
 import { getUserFullName } from '../../utils/userUtils';
 
@@ -29,6 +30,7 @@ export default function ProjectViewModal({
     projectForPreview
   );
   const { previewProject } = usePreviewProjectStore();
+  const { user } = userStore();
 
   useEffect(() => {
     if (!projectForPreview) {
@@ -36,9 +38,12 @@ export default function ProjectViewModal({
         ? previewProject.createdAt
         : getCurrentMonthYear();
 
-      setProject(previewProject);
+      setProject({
+        ...previewProject,
+        user: { ...previewProject.user, ...user },
+      });
     }
-  }, [previewProject, projectForPreview]);
+  }, [previewProject, projectForPreview, user]);
 
   if (!project) return;
 
