@@ -12,6 +12,7 @@ interface useProjectFormProps {
   isEdit: boolean;
   onClose: () => void;
   onImageError: () => void;
+  projectId?: number;
 }
 
 export default function useProjectForm({
@@ -19,6 +20,7 @@ export default function useProjectForm({
   onClose,
   isEdit,
   onImageError,
+  projectId,
 }: useProjectFormProps) {
   const navigate = useNavigate();
   const {
@@ -38,21 +40,37 @@ export default function useProjectForm({
       return;
     }
 
-    try {
-      data.imageProject = imageProject;
-      const response = await api.post('project', data);
+    data.imageProject = imageProject;
 
-      if (response.status === 201) {
-        reset();
-        onClose();
-        const onSuccessMsg = isEdit
-          ? 'Edição concluída com sucesso!'
-          : 'Projeto adicionado com sucesso!';
+    if (isEdit) {
+      try {
+        data.id = projectId;
+        const response = await api.put('project', data);
 
-        navigate('/sucesso/' + onSuccessMsg);
+        if (response.status === 200) {
+          reset();
+          onClose();
+
+          const onSuccessMsg = 'Edição concluída com sucesso!';
+          navigate('/sucesso/' + onSuccessMsg);
+        }
+      } catch (e) {
+        console.error(e);
       }
-    } catch (e) {
-      console.error(e);
+    } else {
+      try {
+        const response = await api.post('project', data);
+
+        if (response.status === 201) {
+          reset();
+          onClose();
+
+          const onSuccessMsg = 'Projeto adicionado com sucesso!';
+          navigate('/sucesso/' + onSuccessMsg);
+        }
+      } catch (e) {
+        console.error(e);
+      }
     }
   };
 

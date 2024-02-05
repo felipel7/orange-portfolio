@@ -3,6 +3,7 @@ import { z } from 'zod';
 export type ProjectFormData = z.infer<typeof projectSchema>;
 
 export const projectSchema = z.object({
+  id: z.any().optional(),
   title: z
     .string()
     .min(5, 'Deve ter no mínimo 5 letras')

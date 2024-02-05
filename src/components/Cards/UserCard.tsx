@@ -1,9 +1,13 @@
 import { Avatar, Button, Stack, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import userStore from '../../store/userStore';
+import { getUserFullName } from '../../utils/userUtils';
 import ProjectModalForm from '../Forms/ProjectForm/ProjectModalForm';
 
 export default function UserCard() {
   const [openFormModal, setOpenFormModal] = useState(false);
+  const { user } = userStore();
+  const fullName = useMemo(() => getUserFullName(user!), [user]);
 
   const handleClose = () => {
     setOpenFormModal(false);
@@ -24,6 +28,8 @@ export default function UserCard() {
             width: 122,
           }}
           variant="circular"
+          src={user?.profileImageAddress}
+          alt={fullName}
         />
 
         <Stack
@@ -40,7 +46,7 @@ export default function UserCard() {
             lineHeight={1}
             variant="h4"
           >
-            Camila Soares
+            {fullName}
           </Typography>
 
           <Typography color="neutral.130" sx={{ opacity: 0.5 }}>

@@ -9,16 +9,21 @@ type Project = {
   user: User;
 };
 
-type PreviewProject = Project & {
-  tags: string[];
-};
-
 type User = {
   id: number;
   firstname: string;
   lastname: string;
   email: string;
-  profileImageAddress: string;
+  profileImageAddress?: string;
+};
+
+type PreviewProject = Project & {
+  tags: string[] | string;
+  user: PreviewProjectUser;
+};
+
+type PreviewProjectUser = Omit<User, 'id'> & {
+  profileImageUser: string;
 };
 
 type SnackbarType = {

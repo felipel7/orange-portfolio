@@ -4,7 +4,14 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import useLocalStorage from '../../../hooks/useLocalStorage';
 import api from '../../../services/apiClient';
+import useStore from '../../../store/userStore';
 import { LoginFormData, loginSchema } from '../../../validation/userSchema';
+
+interface LoginResponse {
+  success: boolean;
+  token: string;
+  user: User;
+}
 
 export default function useLoginForm() {
   const {
@@ -23,6 +30,7 @@ export default function useLoginForm() {
   });
   const navigate = useNavigate();
   const { setItem } = useLocalStorage();
+  const { setUser } = useStore();
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -35,11 +43,11 @@ export default function useLoginForm() {
   const onSubmit = async (data: LoginFormData) => {
     setItem('token', null);
     try {
-      const response = await api.post<{ token: string }>('user/login', data);
+      const response = await api.post<LoginResponse>('user/login', data);
 
-      if (response.status === 200) {
+      if (response.data.success) {
         setItem('token', response.data.token);
-
+        setUser(response.data.user);
         return navigate('/');
       } else {
         reset();
