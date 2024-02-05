@@ -6,8 +6,9 @@ export default function useAuth() {
   const { clearUser } = userStore();
 
   const token = getItem('token');
+  const user = getItem('user');
 
-  const isAuthenticated = !!token || true;
+  const isAuthenticated = !!token && user;
 
   const logout = () => {
     clearUser();
