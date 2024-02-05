@@ -9,6 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../../services/apiClient';
 
 interface DeleteDialogProps {
@@ -23,6 +24,7 @@ export default function DeleteDialog({
   projectId,
 }: DeleteDialogProps) {
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleClose = () => {
     setOpen(false);
@@ -41,6 +43,7 @@ export default function DeleteDialog({
 
   const handleConfirmClose = () => {
     setConfirmOpen(false);
+    navigate(0);
   };
 
   return (

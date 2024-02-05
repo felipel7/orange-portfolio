@@ -14,6 +14,7 @@ export default function HomePage() {
   const { data: projects, error } = useQuery<Project[], Error>({
     queryKey: ['userProjects'],
     queryFn: fetchProjects,
+    staleTime: 0,
   });
 
   const handleFormModalClose = () => {

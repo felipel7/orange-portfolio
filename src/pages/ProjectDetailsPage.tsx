@@ -1,7 +1,7 @@
 import { Container } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ProjectViewModal from '../components/Modal/ProjectViewModal';
 import api from '../services/apiClient';
 
@@ -9,6 +9,7 @@ export default function ProjectDetailsPage() {
   const [open, setOpen] = useState(true);
   const [project, setProject] = useState<Project | null>(null);
   const params = useParams();
+  const navigate = useNavigate();
 
   const fetchProjects = () => api.get('project/all').then(res => res.data);
 
@@ -16,6 +17,11 @@ export default function ProjectDetailsPage() {
     queryKey: ['allProjects'],
     queryFn: fetchProjects,
   });
+
+  const handleClose = () => {
+    setOpen(false);
+    navigate('/descobrir');
+  };
 
   useEffect(() => {
     setOpen(true);
@@ -34,7 +40,7 @@ export default function ProjectDetailsPage() {
       {project && (
         <ProjectViewModal
           open={open}
-          onClose={() => setOpen(false)}
+          onClose={handleClose}
           projectForPreview={project}
         />
       )}
