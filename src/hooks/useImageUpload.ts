@@ -30,5 +30,12 @@ export function useImageUpload(project: Project | undefined) {
     }
   };
 
-  return { imageUrl, imageError, onImageUpload, setImageError, isLoading };
+  return {
+    imageUrl,
+    imageError,
+    onImageUpload,
+    setImageError,
+    isLoading,
+    setImageUrl,
+  };
 }

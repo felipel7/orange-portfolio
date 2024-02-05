@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   ButtonBase,
+  Chip,
   CircularProgress,
   Grid,
   Stack,
@@ -32,8 +33,14 @@ export default function ProjectModalForm({
   const [openPreview, setOpenPreview] = useState(false);
   const { setPreviewProject } = usePreviewProjectStore();
 
-  const { imageUrl, imageError, onImageUpload, setImageError, isLoading } =
-    useImageUpload(project);
+  const {
+    imageUrl,
+    setImageUrl,
+    imageError,
+    onImageUpload,
+    setImageError,
+    isLoading,
+  } = useImageUpload(project);
 
   useEffect(() => {
     return () => {
@@ -79,23 +86,41 @@ export default function ProjectModalForm({
             ) : (
               <ButtonBase sx={{ height: '100%' }} component="label">
                 {imageUrl ? (
-                  <Box
-                    component="div"
-                    sx={{
-                      objectFit: 'cover',
-                      borderRadius: 1,
-                      overflow: 'hidden',
-                      width: '100%',
-                      height: '100%',
-                      maxWidth: 389,
-                      maxHeight: 336,
-                      minHeight: 304,
-                      background: `url(${
-                        project?.imageProject || imageUrl
-                      }) no-repeat`,
-                      backgroundSize: 'cover',
-                    }}
-                  />
+                  <>
+                    <Box
+                      component="div"
+                      sx={{
+                        objectFit: 'cover',
+                        borderRadius: 1,
+                        overflow: 'hidden',
+                        width: '100%',
+                        height: '100%',
+                        maxWidth: 389,
+                        maxHeight: 336,
+                        minHeight: 304,
+                        background: `url(${
+                          project?.imageProject || imageUrl
+                        }) no-repeat`,
+                        backgroundSize: 'cover',
+                      }}
+                    />
+                    <Chip
+                      label="Remover imagem"
+                      onDelete={e => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setImageUrl(undefined);
+                      }}
+                      style={{
+                        position: 'absolute',
+                        top: 4,
+                        right: 4,
+                        zIndex: 2,
+                        color: '#3c3c3c',
+                        backgroundColor: '#E0E0E0',
+                      }}
+                    />
+                  </>
                 ) : (
                   <Stack
                     alignItems="center"
