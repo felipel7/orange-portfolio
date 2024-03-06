@@ -1,11 +1,11 @@
-export function getUserFullName(user: User | undefined) {
-  if (!user?.firstname) return '';
+export function getUserFullName(user: IUser | undefined) {
+  if (!user?.firstName) return '';
 
   const capitalizeFirstLetter = (str: string) =>
     str.charAt(0).toUpperCase() + str.slice(1);
 
-  const firstName = capitalizeFirstLetter(user.firstname);
-  const lastName = capitalizeFirstLetter(user.lastname);
+  const firstName = capitalizeFirstLetter(user.firstName);
+  const lastName = capitalizeFirstLetter(user.lastName);
 
   return `${firstName} ${lastName}`;
 }

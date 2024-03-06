@@ -1,22 +1,23 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Layout from '../Layout';
-import DiscoveryPage from '../pages/DiscoveryPage';
+import SignInPage from '../pages/Auth/SignInPage';
+import SignUpPage from '../pages/Auth/SignUpPage';
+import ExplorePage from '../pages/ExplorePage';
 import HomePage from '../pages/Home';
-import LoginPage from '../pages/LoginPage';
-import ProjectDetailsPage from '../pages/ProjectDetailsPage';
-import ProjectSuccessPage from '../pages/ProjectSuccessPage';
-import RegisterPage from '../pages/RegisterPage';
+import EditProjectPage from '../pages/Project/EditProjectPage';
+import NewProjectPage from '../pages/Project/NewProjectPage';
+import ProjectDetailsPage from '../pages/Project/ProjectDetailsPage';
 import ErrorPage from './ErrorPage';
-import PrivateRoutes from './PrivateRoute';
+import PrivateRoutes from './PrivateRoutes';
 
 const router = createBrowserRouter([
   {
     path: '/login',
-    element: <LoginPage />,
+    element: <SignInPage />,
   },
   {
     path: '/cadastro',
-    element: <RegisterPage />,
+    element: <SignUpPage />,
   },
   {
     element: <PrivateRoutes />,
@@ -26,13 +27,22 @@ const router = createBrowserRouter([
         path: '/',
         element: <Layout />,
         children: [
-          { index: true, element: <HomePage /> },
+          {
+            path: '/',
+            element: <HomePage />,
+            children: [
+              { path: '/novo-projeto', element: <NewProjectPage /> },
+              { path: '/editar-projeto/:id', element: <EditProjectPage /> },
+            ],
+          },
           {
             path: 'descobrir',
-            element: <DiscoveryPage />,
-            children: [{ path: ':id', element: <ProjectDetailsPage /> }],
+            element: <ExplorePage />,
           },
-          { path: 'sucesso/:title', element: <ProjectSuccessPage /> },
+          {
+            path: 'descobrir/:id',
+            element: <ProjectDetailsPage />,
+          },
         ],
       },
     ],

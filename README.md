@@ -1,6 +1,6 @@
 # Orange Portfolio
 
-_O Orange Portfolio foi desenvolvido durante o Hackathon, a última fase final do processo seletivo da Fcamara, na quinta edição do programa_.
+_O Orange Portfolio foi desenvolvido durante o Hackathon da Fcamara, na quinta edição do programa._
 
 <img src="https://ucarecdn.com/ec26af5e-5e38-4c93-917e-6aeb83ef911a/orange.png" alt="home page"/>
 

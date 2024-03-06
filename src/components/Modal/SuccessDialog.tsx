@@ -10,7 +10,12 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-export default function SuccessDialog({ label }: { label: string }) {
+interface SuccessDialogProps {
+  label: string;
+  open: boolean;
+}
+
+export default function SuccessDialog({ label, open }: SuccessDialogProps) {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -19,7 +24,7 @@ export default function SuccessDialog({ label }: { label: string }) {
 
   return (
     <Dialog
-      open={true}
+      open={open}
       aria-labelledby="success-dialog-title"
       aria-describedby="success-dialog-description"
     >
