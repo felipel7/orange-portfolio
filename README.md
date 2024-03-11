@@ -10,7 +10,7 @@ Este projeto consiste em oferecer aos usuários uma plataforma com diversas func
 
 ### 🕹️ Funcionalidades
 
-- **Autenticação**: Login e Cadastro.
+- **Autenticação**: Login, Cadastro e integração com o Google para login.
 
 - **Cadastro de Projetos**: Os usuários podem cadastrar detalhes de seus projetos.
 
@@ -18,11 +18,52 @@ Este projeto consiste em oferecer aos usuários uma plataforma com diversas func
 
 - **Exclusão de Projetos**: Os usuários têm o controle total sobre seus projetos, podendo removê-los quando desejarem.
 
-- V**isualização de todos Projetos**: Os usuários tem acesso a uma galeria completa de projetos submetidos por todos os usuários da plataforma.
+- **Visualização de todos Projetos**: Os usuários tem acesso a uma galeria completa de projetos submetidos por todos os usuários da plataforma.
 
 - **Busca de projetos**: Permite aos usuários encontrar projetos específicos utilizando tags relacionadas.
 
 - **Responsividade**: A interface do aplicativo se ajusta automaticamente a diferentes tamanhos de tela, proporcionando uma experiência de usuário consistente em dispositivos móveis, tablets e desktops.
+
+<br />
+<br />
+
+### Telas
+
+Tela de login
+
+<img src="public/screens/login.gif"/>
+
+<br />
+
+<details>
+  <summary>Modal de Cadastro de Projeto</summary>
+
+  <img src="public/screens/cadastro.gif"/>
+</details>
+
+<br />
+
+<details>
+  <summary>Funcionalidade de Editar um Projeto</summary>
+
+  <img src="public/screens/editar.gif"/>
+</details>
+
+<br />
+
+<details>
+  <summary>Funcionalidade de Excluir um Projeto</summary>
+
+  <img src="public/screens/excluir.gif"/>
+</details>
+
+<br />
+
+<details>
+  <summary>Tela de Descobrir e funcionalidade de Buscar</summary>
+
+  <img src="public/screens/buscar.gif"/>
+</details>
 
 <br />
 <br />
