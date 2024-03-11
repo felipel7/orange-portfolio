@@ -1,35 +1,30 @@
-type Project = {
+interface IProject {
   id: number;
   title: string;
   description: string;
   link: string;
-  imageProject: string;
-  tags: string;
-  createdAt: string;
+  images: ProjectImage[];
+  tags: ITag[];
+  createdAt?: string;
+  updatedAt?: string;
   user: User;
-};
+}
 
-type User = {
+interface IProjectFormPreview extends Partial<IProject> {
+  tags: string[];
+}
+
+interface IUser {
   id: number;
-  firstname: string;
-  lastname: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  profileImageAddress?: string;
-};
+  picture?: string;
+}
 
-type PreviewProject = Project & {
-  tags: string[] | string;
-  user: PreviewProjectUser;
-};
-
-type PreviewProjectUser = Omit<User, 'id'> & {
-  profileImageUser: string;
-};
-
-type SnackbarType = {
-  open: boolean;
-  type: 'success' | 'error';
-  label: string;
-  // eslint-disable-next-line
-  onClose?: (event: Event | SyntheticEvent<any, Event>) => void;
-};
+interface ITag {
+  tag: {
+    id: number;
+    label: string;
+  };
+}

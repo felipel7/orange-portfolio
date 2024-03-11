@@ -1,6 +1,6 @@
 import { Container, Stack, Typography } from '@mui/material';
 import { isRouteErrorResponse, useRouteError } from 'react-router-dom';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/shared/Navbar';
 
 export default function ErrorPage() {
   const error = useRouteError();
@@ -24,7 +24,7 @@ export default function ErrorPage() {
           </Typography>
           <Typography component="p" variant="h5">
             {isRouteErrorResponse(error)
-              ? 'Pagina inválida'
+              ? 'Rota inválida'
               : 'Desculpe, ocorreu um erro inesperado no servidor...'}
           </Typography>
         </Stack>

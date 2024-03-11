@@ -8,9 +8,9 @@ import {
   DialogTitle,
   Typography,
 } from '@mui/material';
+import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import api from '../../services/apiClient';
+import { axiosInstance } from '../../services/apiClient';
 
 interface DeleteDialogProps {
   open: boolean;
@@ -24,7 +24,7 @@ export default function DeleteDialog({
   projectId,
 }: DeleteDialogProps) {
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const handleClose = () => {
     setOpen(false);
@@ -32,7 +32,7 @@ export default function DeleteDialog({
 
   const handleConfirm = async () => {
     try {
-      await api.delete('project/' + projectId);
+      await axiosInstance.delete('projects/' + projectId);
       setOpen(false);
       setConfirmOpen(true);
     } catch (e) {
@@ -42,8 +42,8 @@ export default function DeleteDialog({
   };
 
   const handleConfirmClose = () => {
+    queryClient.invalidateQueries({ queryKey: ['user', 'projects'] });
     setConfirmOpen(false);
-    navigate(0);
   };
 
   return (

@@ -1,17 +1,15 @@
-import userStore from '../store/userStore';
+import { googleLogout } from '@react-oauth/google';
 import useLocalStorage from './useLocalStorage';
 
 export default function useAuth() {
   const { getItem, setItem } = useLocalStorage();
-  const { clearUser } = userStore();
 
   const token = getItem('token');
-  const user = getItem('user');
 
-  const isAuthenticated = !!token && user;
+  const isAuthenticated = !!token;
 
   const logout = () => {
-    clearUser();
+    googleLogout();
     setItem('token', null);
   };
 

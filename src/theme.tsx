@@ -26,19 +26,6 @@ let theme = createTheme({
         },
       },
     },
-    MuiSnackbar: {
-      styleOverrides: {
-        anchorOriginTopRight: {
-          '@media (max-width: 599px)': {
-            top: '49px',
-          },
-          '@media (min-width: 600px)': {
-            top: '77px',
-            right: '184px',
-          },
-        },
-      },
-    },
   },
   typography: {
     fontFamily: 'Roboto',
@@ -49,23 +36,12 @@ let theme = createTheme({
         fontSize: 24,
       },
     },
-    h3: {
-      fontSize: 48,
-      '@media (max-width:600px)': {
-        fontSize: 24,
-      },
-    },
-    h4: {
-      fontSize: 24,
-    },
+
     h5: {
       fontSize: 24,
       '@media (max-width:600px)': {
         fontSize: 16,
       },
-    },
-    h6: {
-      fontSize: 20,
     },
   },
 });
@@ -113,6 +89,12 @@ theme = createTheme(theme, {
         },
         containedSecondary: {
           background: theme.palette.secondary.main,
+        },
+        containedInfo: {
+          backgroundColor: theme.palette.primary.main,
+          '&:hover': {
+            background: theme.palette.primary.light,
+          },
         },
       },
     },

@@ -1,0 +1,47 @@
+:root {
+  --toast-red: #d13939;
+  --toast-green: #2e7d32;
+  --toastify-color-success: var(--toast-green);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Roboto';
+}
+
+.Toastify__toast {
+  height: fit-content;
+}
+
+.Toastify__toast-body {
+  margin-block: 0;
+  padding: 0 0 0 16px;
+  font-weight: 700;
+}
+
+.Toastify__toast--error {
+  background: var(--toast-red);
+  color: white;
+}
+
+.Toastify__toast--success {
+  background: var(--toast-green);
+  color: white;
+}
+
+.Toastify__toast-icon svg {
+  fill: white;
+}
+
+.Toastify__toast-container--top-right {
+  top: 80px;
+}
+
+button[aria-label='close'] {
+  display: none;
+}
