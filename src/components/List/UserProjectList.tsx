@@ -68,7 +68,7 @@ export default function UserProjectsList() {
               }}
               disabled={isFetching}
             >
-              {isFetching ? 'Loading...' : 'Carregar mais'}
+              {isFetching ? 'Carregando...' : 'Carregar mais'}
             </Button>
           )}
         </Grid>

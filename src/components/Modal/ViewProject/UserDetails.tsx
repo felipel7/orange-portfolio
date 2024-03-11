@@ -1,9 +1,7 @@
 import { Avatar, Box, Stack, Typography } from '@mui/material';
-import useCurrentUser from '../../../hooks/useCurrentUser';
 import { getUserFullName } from '../../../utils/userUtils';
 
-export default function UserDetails() {
-  const { data: user } = useCurrentUser();
+export default function UserDetails({ user }: { user: IUser }) {
   const fullName = getUserFullName(user);
 
   const date = new Date();
@@ -13,7 +11,12 @@ export default function UserDetails() {
 
   return (
     <Box display="flex" alignItems="center" gap={1}>
-      <Avatar variant="circular" sx={{ width: 40, height: 40 }} />
+      <Avatar
+        variant="circular"
+        src={user.picture}
+        alt={user.firstName}
+        sx={{ width: 40, height: 40 }}
+      />
       <Stack
         direction={{ xs: 'row', md: 'column' }}
         spacing={{ xs: 1, md: 0 }}

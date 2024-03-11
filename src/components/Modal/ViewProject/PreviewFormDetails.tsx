@@ -1,4 +1,5 @@
 import { Box, Link, Stack, Typography } from '@mui/material';
+import useCurrentUser from '../../../hooks/useCurrentUser';
 import useProjectStore from '../../../store/projectPreviewStore';
 import { RenderFormTags } from './RenderTags';
 import UserDetails from './UserDetails';
@@ -6,6 +7,9 @@ import { StyledPreviewImage } from './styles';
 
 export default function PreviewFormDetails() {
   const { project } = useProjectStore();
+  const { data: user } = useCurrentUser();
+
+  if (!user) return;
 
   return (
     <Stack alignSelf="center" sx={{ maxWidth: 838, width: '100%' }}>
@@ -16,8 +20,8 @@ export default function PreviewFormDetails() {
         alignSelf="center"
         sx={{ width: '100%' }}
       >
-        <Box display={{ xs: 'none', md: 'block' }} flex={1}>
-          <UserDetails />
+        <Box display={{ xs: 'none', md: 'block' }}>
+          <UserDetails user={user} />
         </Box>
         <Box flex={1}>
           <Typography textAlign="center" variant="h4" color="neutral.120">
@@ -32,8 +36,8 @@ export default function PreviewFormDetails() {
       </Box>
 
       <StyledPreviewImage src={project.images![0]} />
-      <Box display={{ xs: 'flex', md: 'none' }} order={-1}>
-        <UserDetails />
+      <Box display={{ xs: 'flex', md: 'none' }}>
+        <UserDetails user={user} />
 
         <RenderFormTags
           tags={project?.tags}

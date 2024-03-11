@@ -28,9 +28,11 @@ export default function useProjectForm({ image, project, onSuccess }: Props) {
   const onSubmit = async (data: ProjectFormData) => {
     if (!image) return toast.error('Faça upload de uma imagem!');
 
-    if (image === project?.images[0]?.url) {
+    if (image !== project?.images[0]?.url) {
+      const response = await fetch(image);
+      const blob = await response.blob();
       const formData = new FormData();
-      formData.append('file', image);
+      formData.append('file', blob);
       formData.append('upload_preset', 'orange');
 
       let imageUrl;
@@ -47,6 +49,8 @@ export default function useProjectForm({ image, project, onSuccess }: Props) {
       }
 
       data.images = [imageUrl];
+    } else {
+      data.images = [image];
     }
 
     if (project) {

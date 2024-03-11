@@ -9,7 +9,7 @@ export function RenderFormTags({ tags, ...rest }: RenderFormTagsProps) {
   if (!tags?.length) return;
 
   return (
-    <Box justifyContent="flex-end" flex={1} gap={1} {...rest}>
+    <Box justifyContent="flex-end" ml="auto" gap={1} {...rest}>
       {tags?.map(tag => (
         <Chip key={tag} label={tag} sx={{ color: 'primary' }} />
       ))}

@@ -60,7 +60,7 @@ export default function ProjectsList() {
               sx={{ my: 6, textTransform: 'none' }}
               disabled={isFetching}
             >
-              {isFetching ? 'Loading...' : 'Carregar mais'}
+              {isFetching ? 'Carregando...' : 'Carregar mais'}
             </Button>
           )}
         </Grid>

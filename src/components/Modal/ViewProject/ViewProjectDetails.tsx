@@ -13,9 +13,9 @@ export default function ViewProjectDetails({ project }: { project: IProject }) {
         sx={{ width: '100%' }}
       >
         <Box display={{ xs: 'none', md: 'block' }} flex={1}>
-          <UserDetails />
+          <UserDetails user={project.user} />
         </Box>
-        <Box flex={1}>
+        <Box>
           <Typography textAlign="center" variant="h4" color="neutral.120">
             {project.title}
           </Typography>
@@ -29,9 +29,9 @@ export default function ViewProjectDetails({ project }: { project: IProject }) {
         src={project.images?.length && project.images[0].url}
         sx={{
           width: '100%',
-          maxHeight: { xs: 250, sm: 500 },
+          maxHeight: { xs: 250, sm: 450 },
           maxWidth: 838,
-          objectFit: 'contain',
+          objectFit: 'cover',
           borderRadius: 1,
           mt: 4,
           mb: 1,
@@ -39,7 +39,7 @@ export default function ViewProjectDetails({ project }: { project: IProject }) {
         alignSelf="center"
       />
       <Box display={{ xs: 'flex', md: 'none' }}>
-        <UserDetails />
+        <UserDetails user={project.user} />
 
         <RenderTags tags={project.tags} display={{ xs: 'flex', md: 'none' }} />
       </Box>

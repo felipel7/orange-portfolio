@@ -7,7 +7,7 @@ interface IProject {
   tags: ITag[];
   createdAt?: string;
   updatedAt?: string;
-  user: User;
+  user: IUser;
 }
 
 interface IProjectFormPreview extends Partial<IProject> {

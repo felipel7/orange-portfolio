@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import ViewProjectModal from '../../components/Modal/ViewProject';
 import ViewProjectDetails from '../../components/Modal/ViewProject/ViewProjectDetails';
+import ProjectDetailsSkeleton from '../../components/Skeletons/ProjectDetailsSkeleton';
 import ApiClient from '../../services/apiClient';
 
 export default function ProjectDetailsPage() {
@@ -12,11 +13,7 @@ export default function ProjectDetailsPage() {
   const params = useParams();
   const apiClient = new ApiClient<IProject>('projects');
 
-  const {
-    data: project,
-    isLoading,
-    error,
-  } = useQuery({
+  const { data: project, isLoading } = useQuery({
     queryKey: ['project', params.id],
     queryFn: () => apiClient.get(params.id),
   });
@@ -26,9 +23,7 @@ export default function ProjectDetailsPage() {
     navigate('/descobrir');
   };
 
-  if (isLoading) return <>Loading...</>;
-
-  if (error) return <>Error...</>;
+  if (isLoading) return <ProjectDetailsSkeleton />;
 
   if (!project) return;
 
